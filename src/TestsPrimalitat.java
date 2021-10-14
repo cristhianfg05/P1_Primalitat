@@ -1,3 +1,4 @@
+import java.math.BigInteger;
 
 public class TestsPrimalitat {
 
@@ -510,12 +511,12 @@ public class TestsPrimalitat {
 			79813, 79817, 79823, 79829, 79841, 79843, 79847, 79861, 79867, 79873, 79889, 79901, 79903, 79907, 79939,
 			79943, 79967, 79973, 79979, 79987, 79997, 79999 };
 
-	public static boolean testFermat(int p) {
+	public static boolean testFermatNormal(int p) {
 		int i = 0;
 		boolean primo = true;
-		while (i < 10000 && primo) {
+		while (i < 100 && primo) {
 			int a = (int) (Math.random() * (p - 1) + 1);
-			if (!(a_pow_b_mod_c(a, p - 1, p) == 1)) {
+			if (!(a_pow_b_mod_c_normal(a, p - 1, p) == 1)) {
 				primo = false;
 			}
 			i++;
@@ -523,12 +524,23 @@ public class TestsPrimalitat {
 		return primo;
 	}
 
-	public static int a_pow_b_mod_c(int a, int b, int c) {
+	public static int a_pow_b_mod_c_normal(int a, int b, int c) {
 		int resultat = 1;
 		for (int i = 0; i < b; i++) {
 			resultat = resultat * a % c;
 		}
 		return resultat;
+	}
+	
+	public static boolean testFermatBigInt(BigInteger n) {
+		int i = 0;
+		boolean primo = true;
+		if (!(n.equals(1) ||n.equals(2)|| n.equals(3) || n.divideAndRemainder(BigInteger.TWO)[1] == BigInteger.ZERO)) {
+			while(i<100 && primo) {
+				
+			}
+		}
+		return false;
 	}
 
 	public static boolean testMillerRabin(int p) {
@@ -538,8 +550,8 @@ public class TestsPrimalitat {
 			int i = 0;
 			while (i < 10 && primo) {
 				int a = (int) (Math.random() * (p - 1) + 2);
-				if (!(a_pow_b_mod_c(a, d, p) == 1) && (!(a_pow_b_mod_c(a, (int) Math.pow(2, 0) * d, p) == -1))
-						&& (!(a_pow_b_mod_c(a, (int) Math.pow(2, 1) * d, p) == -1))) {
+				if (!(a_pow_b_mod_c_normal(a, d, p) == 1) && (!(a_pow_b_mod_c_normal(a, (int) Math.pow(2, 0) * d, p) == -1))
+						&& (!(a_pow_b_mod_c_normal(a, (int) Math.pow(2, 1) * d, p) == -1))) {
 					primo = false;
 				}
 			}
