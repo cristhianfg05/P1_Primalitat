@@ -543,21 +543,72 @@ public class TestsPrimalitat {
 		return false;
 	}
 
-	public static boolean testMillerRabin(int p) {
-		boolean primo = true;
-		if (!(p == 1 || p == 2 || p == 3 || p % 2 == 0)) {
-			int d = p / 4;
-			int i = 0;
-			while (i < 10 && primo) {
-				int a = (int) (Math.random() * (p - 1) + 2);
-				if (!(a_pow_b_mod_c_normal(a, d, p) == 1) && (!(a_pow_b_mod_c_normal(a, (int) Math.pow(2, 0) * d, p) == -1))
-						&& (!(a_pow_b_mod_c_normal(a, (int) Math.pow(2, 1) * d, p) == -1))) {
-					primo = false;
-				}
-			}
-		} else {
+    static int power(int x, int y, int p) {
+        
+        int res = 1; 
+         
 
+        x = x % p;
+ 
+        while (y > 0) {
+
+            if ((y & 1) == 1)
+                res = (res * x) % p;
+         
+            y = y/2;
+            x = (x * x) % p;
+        }
+         
+        return res;
+    }
+	
+	public static boolean testMillerRabin(int p) {
+		boolean primo = false;
+			int a = 2 + (int)(Math.random()%(p-4));
+			int d = p-1;
+			
+			//Generamos d (vamos a dividir entre 2 p-1 hasta que deje de ser par)
+			while(d%2==0)
+				d /=2;
+			
+			int x = a_pow_b_mod_c_normal(a,d,p);
+			
+			//Sigue haciendo X^2 mientras una de las siguientes hipotesis no se cumpla
+			// 1 - d no llegue a p-1
+			// 2 - (x^2) % n no es 1
+			// 3 - (x^2) % n no es -1
+			while(d!=p-1) {
+				x = (x*x)%p;
+				d *=2;
+				if(x==1)
+					return false;
+				if(x== p-1)
+					return true;
+			}
+			return false;
 		}
-		return primo;
-	}
+			
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -5,9 +5,11 @@ public class Main_P1 {
 
 	public static void main(String[] args) {
 		
-		Scanner sc = new Scanner(System.in);
-		String numBigInt = sc.next();
-		BigInteger num = new BigInteger(numBigInt); 
+		
+		for (int i = 0; i < 40; i++) {
+			System.out.print(TestsPrimalitat.testMillerRabin(35837));
+		}
+		
 	}
 
 }
