@@ -511,6 +511,9 @@ public class TestsPrimalitat {
 			79813, 79817, 79823, 79829, 79841, 79843, 79847, 79861, 79867, 79873, 79889, 79901, 79903, 79907, 79939,
 			79943, 79967, 79973, 79979, 79987, 79997, 79999 };
 
+	
+	//Funciona hasta cierto limite, ya que para hacer la comprobacion generamos un numero random entre 1 y p-1
+    //a partir del 30k para arriba puede comenzar a fallar
 	public static boolean testFermatNormal(int p) {
 		int i = 0;
 		boolean primo = true;
@@ -532,6 +535,8 @@ public class TestsPrimalitat {
 		return resultat;
 	}
 	
+	
+	//En proceso
 	public static boolean testFermatBigInt(BigInteger n) {
 		int i = 0;
 		boolean primo = true;
@@ -562,6 +567,8 @@ public class TestsPrimalitat {
         return res;
     }
 	
+    //Funciona hasta cierto limite, ya que para hacer la comprobacion generamos un numero random entre 2 y p-4
+    //a partir del 30k para arriba puede comenzar a fallar
 	public static boolean testMillerRabin(int p) {
 		boolean primo = false;
 			int a = 2 + (int)(Math.random()%(p-4));
@@ -587,6 +594,40 @@ public class TestsPrimalitat {
 			}
 			return false;
 		}
+	
+	//Funciona, pero es el 
+	public static boolean esPrimoRaizDeP(int p) {
+		boolean primo = true;
+		int i = 3;
+		while(i<=(int)Math.sqrt(p) && primo) {
+			if(p%i == 0)
+				primo = false;
+			i++;
+		}
+		return primo;
+	}
+	
+	public static boolean esPrimoHasta_P_Partido2(int p) {
+		boolean primo = true;
+		int i = 3;
+		while(i<=p/2 && primo) {
+			if(p%i == 0)
+				primo = false;
+			i++;
+		}
+		return primo;
+	}
+	
+	public static boolean esPrimoHastaP(int p) {
+		boolean primo = true;
+		int i = 3;
+		while(i<p && primo) {
+			if(p%i == 0)
+				primo = false;
+			i++;
+		}
+		return primo;
+	}
 			
 }
 
