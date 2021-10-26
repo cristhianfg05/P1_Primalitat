@@ -595,7 +595,7 @@ public class TestsPrimalitat {
 			return false;
 		}
 	
-	//Funciona, pero es el 
+	//Funciona, pero es uno de los menos eficientes - Complejidad Raiz(N)
 	public static boolean esPrimoRaizDeP(int p) {
 		boolean primo = true;
 		int i = 3;
@@ -607,6 +607,7 @@ public class TestsPrimalitat {
 		return primo;
 	}
 	
+	//Funciona, pero es uno de los menos eficientes - Complejidad N
 	public static boolean esPrimoHasta_P_Partido2(int p) {
 		boolean primo = true;
 		int i = 3;
@@ -618,6 +619,7 @@ public class TestsPrimalitat {
 		return primo;
 	}
 	
+	//Funciona, pero es uno de los menos eficientes - Complejidad N
 	public static boolean esPrimoHastaP(int p) {
 		boolean primo = true;
 		int i = 3;
@@ -625,6 +627,18 @@ public class TestsPrimalitat {
 			if(p%i == 0)
 				primo = false;
 			i++;
+		}
+		return primo;
+	}
+	
+	public static boolean esPrimoHastaP_BigInteger(BigInteger p) {
+		boolean primo = true;
+		BigInteger i = BigInteger.TWO;
+		while(i.compareTo(p)==-1) {
+			if(p.divideAndRemainder(i)[1]==BigInteger.ZERO) 
+				primo = false;
+			i.add(BigInteger.ONE);
+			System.out.print(i);
 		}
 		return primo;
 	}
