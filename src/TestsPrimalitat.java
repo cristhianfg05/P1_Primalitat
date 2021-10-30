@@ -1,4 +1,5 @@
 import java.math.BigInteger;
+import java.util.Random;
 
 public class TestsPrimalitat {
 
@@ -543,12 +544,19 @@ public class TestsPrimalitat {
 	public static boolean testFermatBigInt(BigInteger p) {
 		BigInteger i = BigInteger.ZERO;
 		boolean primo = true;
-		BigInteger maximo = new BigInteger(Integer.toString(100));
+		BigInteger maximo = new BigInteger(Integer.toString(1000));
+		
 		while(i.compareTo(maximo) == -1 && primo) {
-			p = p.subtract(BigInteger.ONE);
-			BigInteger a = new BigInteger(Math.random() * p + 1);
+			BigInteger randomNum = new BigInteger((int)(Math.log(p.intValue())/Math.log(2)), new Random());
+			randomNum = randomNum.add(BigInteger.ONE);
+			System.out.println("Hola mi niño el num random es: "+randomNum);
+			randomNum = randomNum.modPow(p.subtract(BigInteger.ONE), p);
+			if(!( randomNum.equals(BigInteger.ONE))) {
+				primo = false;
+			}
+			i = i.add(BigInteger.ONE);
 		}
-		return false;
+		return primo;
 	}
 
 	

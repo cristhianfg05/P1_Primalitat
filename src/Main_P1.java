@@ -10,6 +10,7 @@ public class Main_P1 {
 		String[] valores; 
 		valores = leerFichero(tamanofichero);
 		
+		System.out.println(TestsPrimalitat.testFermatBigInt(new BigInteger(Integer.toString(79999))));
 		/*
 		System.out.println("Case: "+numero);
 		System.out.print(TestsPrimalitat.esPrimoRaizDeP(numero)+"\n");
@@ -32,5 +33,8 @@ public class Main_P1 {
 		} 
 		myReader.close();
 		return numeros;
+	}
+	public static void guardarFichero(String[] tabla) {
+		
 	}
 }
