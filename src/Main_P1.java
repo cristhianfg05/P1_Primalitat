@@ -9,7 +9,8 @@ public class Main_P1 {
 			System.out.print(TestsPrimalitat.esPrimoRaizDeP(999983)+"\n");
 			System.out.print(TestsPrimalitat.esPrimoHastaP(999983)+"\n");
 			System.out.print(TestsPrimalitat.esPrimoHasta_P_Partido2(999983)+"\n");
-			System.out.print(TestsPrimalitat.esPrimoHastaP_BigInteger(new BigInteger("999994"))+"\n");
+			System.out.print(TestsPrimalitat.esPrimoHastaP_BigInteger(new BigInteger("999983"))+"\n");
+			System.out.print(TestsPrimalitat.esPrimoHastaP_Pardido_2_BigInteger(new BigInteger("999983"))+"\n");
 			//El cristhian es buena gente 
 		
 	}

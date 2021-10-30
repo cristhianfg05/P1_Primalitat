@@ -642,6 +642,30 @@ public class TestsPrimalitat {
 		}
 		return primo;
 	}
+	
+	//Funciona, es uno de los menos eficientes - Complejidad N (puede trabajar hasta 2^(2^64) ya que esta con BigInteger)
+		public static boolean esPrimoHastaP_Pardido_2_BigInteger(BigInteger p) {
+			boolean primo = true;
+			BigInteger i = BigInteger.TWO;
+			while(i.compareTo(p.divide(BigInteger.TWO))==-1) {
+				if(p.divideAndRemainder(i)[1]==BigInteger.ZERO) 
+					primo = false;
+				i=i.add(BigInteger.ONE);
+			}
+			return primo;
+		}
+		
+		//Funciona, es uno de los menos eficientes - Complejidad N (puede trabajar hasta 2^(2^64) ya que esta con BigInteger)
+				public static boolean esPrimoHastaRaizDeP_BigInteger(BigInteger p) {
+					boolean primo = true;
+					BigInteger i = BigInteger.TWO;
+					while(i.compareTo(p.sqrt())==-1) {
+						if(p.divideAndRemainder(i)[1]==BigInteger.ZERO) 
+							primo = false;
+						i=i.add(BigInteger.ONE);
+					}
+					return primo;
+				}
 			
 }
 
