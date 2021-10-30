@@ -520,6 +520,7 @@ public class TestsPrimalitat {
 		boolean primo = true;
 		while (i < 100 && primo) {
 			int a = (int) (Math.random() * (p - 1) + 1);
+			//Si a^(p-1)!=1 (p), entonces p es compuesto 
 			if (!(a_pow_b_mod_c_normal(a, p - 1, p) == 1)) {
 				primo = false;
 			}
@@ -527,7 +528,8 @@ public class TestsPrimalitat {
 		}
 		return primo;
 	}
-
+	
+	//Hace a^b%c de manera mecanica, osea a*a%c b veces
 	public static int a_pow_b_mod_c_normal(int a, int b, int c) {
 		int resultat = 1;
 		for (int i = 0; i < b; i++) {
@@ -549,27 +551,10 @@ public class TestsPrimalitat {
 		return false;
 	}
 
-    static int power(int x, int y, int p) {
-        
-        int res = 1; 
-         
-
-        x = x % p;
- 
-        while (y > 0) {
-
-            if ((y & 1) == 1)
-                res = (res * x) % p;
-         
-            y = y/2;
-            x = (x * x) % p;
-        }
-         
-        return res;
-    }
 	
     //Funciona hasta cierto limite, ya que para hacer la comprobacion generamos un numero random entre 2 y p-4
-    //a partir del 30k para arriba puede comenzar a fallar
+    //a partir de un numero alto (tan alto como para que p^(numero random entre 1 y p-1) sobrepase 2^64) 
+	//para arriba puede comenzar a fallar
 	public static boolean testMillerRabin(int p) {
 			int a = 2 + (int)(Math.random()%(p-4));
 			int d = p-1;
