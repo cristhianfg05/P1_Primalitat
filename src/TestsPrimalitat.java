@@ -2,6 +2,7 @@ import java.math.BigInteger;
 
 public class TestsPrimalitat {
 
+	private static final byte[] String = null;
 	public static int[] primesFrom2two80k = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67,
 			71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181,
 			191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307,
@@ -537,13 +538,13 @@ public class TestsPrimalitat {
 	
 	
 	//En proceso
-	public static boolean testFermatBigInt(BigInteger n) {
-		int i = 0;
+	public static boolean testFermatBigInt(BigInteger p) {
+		BigInteger i = BigInteger.ZERO;
 		boolean primo = true;
-		if (!(n.equals(1) ||n.equals(2)|| n.equals(3) || n.divideAndRemainder(BigInteger.TWO)[1] == BigInteger.ZERO)) {
-			while(i<100 && primo) {
-				
-			}
+		BigInteger maximo = new BigInteger(Integer.toString(100));
+		while(i.compareTo(maximo) == -1 && primo) {
+			p = p.subtract(BigInteger.ONE);
+			BigInteger a = new BigInteger(Math.random() * p + 1);
 		}
 		return false;
 	}
@@ -570,7 +571,6 @@ public class TestsPrimalitat {
     //Funciona hasta cierto limite, ya que para hacer la comprobacion generamos un numero random entre 2 y p-4
     //a partir del 30k para arriba puede comenzar a fallar
 	public static boolean testMillerRabin(int p) {
-		boolean primo = false;
 			int a = 2 + (int)(Math.random()%(p-4));
 			int d = p-1;
 			
