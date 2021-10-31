@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Main_P1 {
 
 	public static void main(String[] args) throws FileNotFoundException{
-		int tamanofichero = 11; 
+		final int tamanofichero = 11; 
 		String[] valores; 
 		valores = leerFichero(tamanofichero);
 		
