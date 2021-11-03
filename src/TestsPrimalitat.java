@@ -513,15 +513,15 @@ public class TestsPrimalitat {
 			79813, 79817, 79823, 79829, 79841, 79843, 79847, 79861, 79867, 79873, 79889, 79901, 79903, 79907, 79939,
 			79943, 79967, 79973, 79979, 79987, 79997, 79999 };
 
-	
-	//Funciona hasta cierto limite, ya que para hacer la comprobacion generamos un numero random entre 1 y p-1
-    //a partir del 30k para arriba puede comenzar a fallar
-	public static boolean testFermatNormal(int p) {
-		int i = 0;
+	// Funciona hasta cierto limite, ya que para hacer la comprobacion generamos un
+	// numero random entre 1 y p-1
+	// Ya que el random puede hacer 1000^1000 puede fallar rapido, aun asi eficiente(falta Javadoc)
+	public static boolean testFermatNormal(long p) {
+		long i = 0;
 		boolean primo = true;
 		while (i < 100 && primo) {
-			int a = (int) (Math.random() * (p - 1) + 1);
-			//Si a^(p-1)!=1 (p), entonces p es compuesto 
+			long a = (long) (Math.random() * (p - 1) + 1);
+			// Si a^(p-1)!=1 (p), entonces p es compuesto
 			if (!(a_pow_b_mod_c_normal(a, p - 1, p) == 1)) {
 				primo = false;
 			}
@@ -529,29 +529,28 @@ public class TestsPrimalitat {
 		}
 		return primo;
 	}
-	
-	//Hace a^b%c de manera mecanica, osea a*a%c b veces
-	public static int a_pow_b_mod_c_normal(int a, int b, int c) {
-		int resultat = 1;
+
+	// Hace a^b%c de manera mecanica, osea a*a%c b veces
+	public static long a_pow_b_mod_c_normal(long a, long b, long c) {
+		long resultat = 1;
 		for (int i = 0; i < b; i++) {
 			resultat = resultat * a % c;
 		}
 		return resultat;
 	}
-	
-	
-	//En proceso
+
+	// Finalizado (falta Javadoc)
 	public static boolean testFermatBigInt(BigInteger p) {
 		BigInteger i = BigInteger.ZERO;
 		boolean primo = true;
 		BigInteger maximo = new BigInteger(Integer.toString(1000));
-		
-		while(i.compareTo(maximo) == -1 && primo) {
-			BigInteger randomNum = new BigInteger((int)(Math.log(p.intValue())/Math.log(2)), new Random());
+
+		while (i.compareTo(maximo) == -1 && primo) {
+			BigInteger randomNum = new BigInteger((int) (Math.log(p.intValue()) / Math.log(2)), new Random());
 			randomNum = randomNum.add(BigInteger.ONE);
-			System.out.println("Hola mi niño el num random es: "+randomNum);
+			System.out.println("Hola mi niño el num random es: " + randomNum);
 			randomNum = randomNum.modPow(p.subtract(BigInteger.ONE), p);
-			if(!( randomNum.equals(BigInteger.ONE))) {
+			if (!(randomNum.equals(BigInteger.ONE))) {
 				primo = false;
 			}
 			i = i.add(BigInteger.ONE);
@@ -559,128 +558,113 @@ public class TestsPrimalitat {
 		return primo;
 	}
 
-	
-    //Funciona hasta cierto limite, ya que para hacer la comprobacion generamos un numero random entre 2 y p-4
-    //a partir de un numero alto (tan alto como para que p^(numero random entre 1 y p-1) sobrepase 2^64) 
-	//para arriba puede comenzar a fallar
-	public static boolean testMillerRabin(int p) {
-			int a = 2 + (int)(Math.random()%(p-4));
-			int d = p-1;
-			
-			//Generamos d (vamos a dividir entre 2 p-1 hasta que deje de ser par)
-			while(d%2==0)
-				d /=2;
-			
-			int x = a_pow_b_mod_c_normal(a,d,p);
-			
-			//Sigue haciendo X^2 mientras una de las siguientes hipotesis no se cumpla
-			// 1 - d no llegue a p-1
-			// 2 - (x^2) % n no es 1
-			// 3 - (x^2) % n no es -1
-			while(d!=p-1) {
-				x = (x*x)%p;
-				d *=2;
-				if(x==1)
-					return false;
-				if(x== p-1)
-					return true;
-			}
-			return false;
+	// Funciona hasta cierto limite, ya que para hacer la comprobacion generamos un
+	// numero random entre 2 y p-4
+	// a partir de un numero alto (tan alto como para que p^(numero random entre 1 y
+	// p-1) sobrepase 2^64)
+	// para arriba puede comenzar a fallar (falta Javadoc)
+	public static boolean testMillerRabin(long p) {
+		long a = 2 + (long) (Math.random() % (p - 4));
+		long d = p - 1;
+
+		// Generamos d (vamos a dividir entre 2 p-1 hasta que deje de ser par)
+		while (d % 2 == 0)
+			d /= 2;
+
+		long x = a_pow_b_mod_c_normal(a, d, p);
+
+		// Sigue haciendo X^2 mientras una de las siguientes hipotesis no se cumpla
+		// 1 - d no llegue a p-1
+		// 2 - (x^2) % n no es 1
+		// 3 - (x^2) % n no es -1
+		while (d != p - 1) {
+			x = (x * x) % p;
+			d *= 2;
+			if (x == 1)
+				return false;
+			if (x == p - 1)
+				return true;
 		}
-	
-	//Funciona, pero es uno de los menos eficientes - Complejidad Raiz(N)
-	public static boolean esPrimoRaizDeP(int p) {
+		return false;
+	}
+
+	// Funciona, pero es uno de los menos eficientes - Complejidad Raiz(N) (falta
+	// Javadoc)
+	public static boolean esPrimoRaizDeP(long p) {
 		boolean primo = true;
-		int i = 3;
-		while(i<=(int)Math.sqrt(p) && primo) {
-			if(p%i == 0)
+		long i = 3;
+		while (i <= (long) Math.sqrt(p) && primo) {
+			if (p % i == 0)
 				primo = false;
 			i++;
 		}
 		return primo;
 	}
-	
-	//Funciona, pero es uno de los menos eficientes - Complejidad N
-	public static boolean esPrimoHasta_P_Partido2(int p) {
+
+	// Funciona, pero es uno de los menos eficientes - Complejidad N (falta Javadoc)
+	public static boolean esPrimoHasta_P_Partido2(long p) {
 		boolean primo = true;
-		int i = 3;
-		while(i<=p/2 && primo) {
-			if(p%i == 0)
+		long i = 3;
+		while (i <= p / 2 && primo) {
+			if (p % i == 0)
 				primo = false;
 			i++;
 		}
 		return primo;
 	}
-	
-	//Funciona, pero es uno de los menos eficientes - Complejidad N
-	public static boolean esPrimoHastaP(int p) {
+
+	// Funciona, pero es uno de los menos eficientes - Complejidad N (falta Javadoc)
+	public static boolean esPrimoHastaP(long p) {
 		boolean primo = true;
-		int i = 3;
-		while(i<p && primo) {
-			if(p%i == 0)
+		long i = 3;
+		while (i < p && primo) {
+			if (p % i == 0)
 				primo = false;
 			i++;
 		}
 		return primo;
 	}
-	
-	//Funciona, es uno de los menos eficientes - Complejidad N (puede trabajar hasta 2^(2^64) ya que esta con BigInteger)
+
+	// Funciona, es uno de los menos eficientes - Complejidad N (puede trabajar
+	// hasta 2^(2^64) ya que esta con BigInteger)
+	// (falta Javadoc)
 	public static boolean esPrimoHastaP_BigInteger(BigInteger p) {
 		boolean primo = true;
 		BigInteger i = BigInteger.TWO;
-		while(i.compareTo(p)==-1) {
-			if(p.divideAndRemainder(i)[1]==BigInteger.ZERO) 
+		while (i.compareTo(p) == -1) {
+			if (p.divideAndRemainder(i)[1] == BigInteger.ZERO)
 				primo = false;
-			i=i.add(BigInteger.ONE);
+			i = i.add(BigInteger.ONE);
 		}
 		return primo;
 	}
-	
-	//Funciona, es uno de los menos eficientes - Complejidad N (puede trabajar hasta 2^(2^64) ya que esta con BigInteger)
-		public static boolean esPrimoHastaP_Pardido_2_BigInteger(BigInteger p) {
-			boolean primo = true;
-			BigInteger i = BigInteger.TWO;
-			while(i.compareTo(p.divide(BigInteger.TWO))==-1) {
-				if(p.divideAndRemainder(i)[1]==BigInteger.ZERO) 
-					primo = false;
-				i=i.add(BigInteger.ONE);
-			}
-			return primo;
+
+	// Funciona, es uno de los menos eficientes - Complejidad N (puede trabajar
+	// hasta 2^(2^64) ya que esta con BigInteger)
+	// (falta Javadoc)
+	public static boolean esPrimoHastaP_Pardido_2_BigInteger(BigInteger p) {
+		boolean primo = true;
+		BigInteger i = BigInteger.TWO;
+		while (i.compareTo(p.divide(BigInteger.TWO)) == -1) {
+			if (p.divideAndRemainder(i)[1] == BigInteger.ZERO)
+				primo = false;
+			i = i.add(BigInteger.ONE);
 		}
-		
-		//Funciona, es uno de los menos eficientes - Complejidad N (puede trabajar hasta 2^(2^64) ya que esta con BigInteger)
-				public static boolean esPrimoHastaRaizDeP_BigInteger(BigInteger p) {
-					boolean primo = true;
-					BigInteger i = BigInteger.TWO;
-					while(i.compareTo(p.sqrt())==-1) {
-						if(p.divideAndRemainder(i)[1]==BigInteger.ZERO) 
-							primo = false;
-						i=i.add(BigInteger.ONE);
-					}
-					return primo;
-				}
-			
+		return primo;
+	}
+
+	// Funciona, es uno de los menos eficientes - Complejidad N (puede trabajar
+	// hasta 2^(2^64) ya que esta con BigInteger)
+	// (falta Javadoc)
+	public static boolean esPrimoHastaRaizDeP_BigInteger(BigInteger p) {
+		boolean primo = true;
+		BigInteger i = BigInteger.TWO;
+		while (i.compareTo(p.sqrt()) == -1) {
+			if (p.divideAndRemainder(i)[1] == BigInteger.ZERO)
+				primo = false;
+			i = i.add(BigInteger.ONE);
+		}
+		return primo;
+	}
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
