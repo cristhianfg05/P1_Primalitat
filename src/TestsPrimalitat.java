@@ -515,11 +515,11 @@ public class TestsPrimalitat {
 
 	// Funciona hasta cierto limite, ya que para hacer la comprobacion generamos un
 	// numero random entre 1 y p-1
-	// Ya que el random puede hacer 1000^1000 puede fallar rapido, aun asi eficiente(falta Javadoc)
+	// eficiente(falta Javadoc)
 	public static boolean testFermatNormal(long p) {
 		long i = 0;
 		boolean primo = true;
-		while (i < 100 && primo) {
+		while (i < 10 && primo) {
 			long a = (long) (Math.random() * (p - 1) + 1);
 			// Si a^(p-1)!=1 (p), entonces p es compuesto
 			if (!(a_pow_b_mod_c_normal(a, p - 1, p) == 1)) {
@@ -548,7 +548,6 @@ public class TestsPrimalitat {
 		while (i.compareTo(maximo) == -1 && primo) {
 			BigInteger randomNum = new BigInteger((int) (Math.log(p.intValue()) / Math.log(2)), new Random());
 			randomNum = randomNum.add(BigInteger.ONE);
-			System.out.println("Hola mi niño el num random es: " + randomNum);
 			randomNum = randomNum.modPow(p.subtract(BigInteger.ONE), p);
 			if (!(randomNum.equals(BigInteger.ONE))) {
 				primo = false;
@@ -594,8 +593,9 @@ public class TestsPrimalitat {
 		boolean primo = true;
 		long i = 3;
 		while (i <= (long) Math.sqrt(p) && primo) {
-			if (p % i == 0)
+			if (p % i == 0) {
 				primo = false;
+			}
 			i++;
 		}
 		return primo;
