@@ -132,7 +132,7 @@ public class Main_P1 {
 			}
 			long endTime = System.nanoTime();
 			long totalTime = (long) ((endTime - startTime)* 10e6);
-			scFit.println(valoresBigInteger[i] + " Primo mas grande : "+ valor + " Tiempo transcurrido : " + totalTime+ " ms" );
+			scFit.println(valoresBigInteger[i] + " , "+ valor + " , " + totalTime);
 		}
 		numerosSalida.close();
 	} 

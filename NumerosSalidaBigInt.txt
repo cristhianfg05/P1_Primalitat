@@ -1,1 +1,1 @@
-80000 Primo mas grande : 79999Tiempo transcurrido : 235179000000000 ms
+80000 , 79999 , 286094000000000
