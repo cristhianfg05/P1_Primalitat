@@ -587,39 +587,34 @@ public class TestsPrimalitat {
 	 * @return boolean true si es primo
 	 */
 	public static boolean testMillerRabin(long p) {
-		boolean primo = true;
 		long d = p - 1;
 		// Generamos d (vamos a dividir entre 2 p-1 hasta que deje de ser par)
 		// O lo que es lo mismo computarlo hasta que d*2^r
 		while (d % 2 == 0)
 			d /= 2;
+
+		long a = 2 + (long) (Math.random() % (p - 4));
+
+		long x = a_pow_b_mod_c_normal(a, d, p);
 		
-		//Con 4 pruebas por numero es mas que suficiente para probar que es primo
-		int i = 0;
-		while(i<4 && primo){
-			long a = 2 + (long) (Math.random() % (p - 4));
+		if(x == 1 || x == p-1)
+			return true;
+		// Sigue haciendo X^2 mientras una de las siguientes hipotesis no se cumpla
+		// 1 - d no llegue a p-1
+		// 2 - (x^2) % n no es 1
+		// 3 - (x^2) % n no es n-1
+		while (d != p - 1) {
+			x = (x * x) % p;
+			d *= 2;
+			if (x == 1) // Si cumple el teorema de Fermat no es primo
+				return false;
 
-			long x = a_pow_b_mod_c_normal(a, d, p);
-
-			// Sigue haciendo X^2 mientras una de las siguientes hipotesis no se cumpla
-			// 1 - d no llegue a p-1
-			// 2 - (x^2) % n no es 1
-			// 3 - (x^2) % n no es n-1
-			while (d != p - 1) {
-				x = (x * x) % p;
-				d *= 2;
-				if (x == 1) // Si cumple el teorema de Fermat no es primo
-					primo = false;
-				
-				if (x == p - 1) // Si cumple que x^2 % p = p-1 es un primo
-					primo = true;
-				 // Si llega hasta aqui es que es compuesto / primo
-			}
-			if(primo == false)
-			return false;
-			i++;
+			if (x == p - 1) // Si cumple que x^2 % p = p-1 es un primo
+				return true;
+			// Si llega hasta aqui es que es compuesto / primo
 		}
-		return primo;
+		return false;
+
 	}
 
 	// Funciona, pero es uno de los menos eficientes - Complejidad Raiz(N) (falta

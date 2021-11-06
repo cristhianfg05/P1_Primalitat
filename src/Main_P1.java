@@ -8,7 +8,6 @@ import java.util.Scanner;
 
 public class Main_P1 {
 
-	private static final BigInteger BigInteger = null;
 
 	public static void main(String[] args) throws IOException {
 		final int tamanofichero = 8;
@@ -19,7 +18,7 @@ public class Main_P1 {
 		//valores = leerFichero(tamanofichero);
 		//escribirSalidaLong(tamanofichero, valores);
 		//System.out.print(TestsPrimalitat.testFermatNormal(6346339));
-		System.out.print(TestsPrimalitat.testMillerRabin(79999));
+		System.out.print(TestsPrimalitat.testMillerRabin(79687));
 
 		/*
 		 * System.out.println("Case: "+numero);
