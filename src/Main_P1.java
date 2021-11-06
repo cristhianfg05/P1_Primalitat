@@ -8,13 +8,16 @@ import java.util.Scanner;
 
 public class Main_P1 {
 
+	private static final BigInteger BigInteger = null;
+
 	public static void main(String[] args) throws IOException {
-		final int tamanofichero = 11;
+		final int tamanofichero = 1;
 		String[] valoresBigInteger;
-		//valoresBigInteger = leerFicheroBigInteger(tamanofichero);
-		long[] valores;
-		valores = leerFichero(tamanofichero);
-		escribirSalidaLong(tamanofichero, valores);
+		valoresBigInteger = leerFicheroBigInteger(tamanofichero);
+		escribirSalidaBI(tamanofichero, valoresBigInteger);
+		//long[] valores;
+		//valores = leerFichero(tamanofichero);
+		//escribirSalidaLong(tamanofichero, valores);
 		//System.out.print(TestsPrimalitat.testFermatNormal(6346339));
 
 		/*
@@ -100,5 +103,41 @@ public class Main_P1 {
 			primo = false;
 		}
 		numerosSalida.close();
+	}
+	
+	public static void escribirSalidaBI (int tamanofichero, String[] valoresBigInteger) throws IOException {
+		FileWriter numerosSalida = new FileWriter("NumerosSalidaBigInt.txt");
+		PrintWriter scFit = new PrintWriter(numerosSalida, true);
+		boolean primo = false; 
+		
+		for (int i = 0; i < tamanofichero; i++) {
+			BigInteger valor = new BigInteger(valoresBigInteger[i]);
+			BigInteger modulo = valor.mod(BigInteger("2"));
+			
+			if(modulo == java.math.BigInteger.ZERO) {
+				valor = valor.subtract(java.math.BigInteger.ONE);
+			}
+			
+			long startTime = System.nanoTime();
+			
+			while (valor.compareTo(java.math.BigInteger.ZERO) == 1 && !primo) {
+				if(!TestsPrimalitat.testFermatBigInt(valor)) {
+					valor = valor.subtract(java.math.BigInteger.TWO);
+				} else {
+					primo = true;
+				}
+				
+				/** Tests con BigInt**/
+				// TestsPrimalitat.testMillerRabin(valor);
+			}
+			long endTime = System.nanoTime();
+			//System.out.println("Primo mas cercano" + valor);
+			scFit.println(valoresBigInteger[i] + "Primo mas grande : "+ valor + "Tiempo transcurrido : " + (endTime - startTime)* 10e6+ " ms" );
+		}
+		numerosSalida.close();
+	}
+
+	private static java.math.BigInteger BigInteger(String string) {
+		return null;
 	}
 }
