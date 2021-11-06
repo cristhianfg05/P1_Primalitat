@@ -112,9 +112,9 @@ public class Main_P1 {
 		
 		for (int i = 0; i < tamanofichero; i++) {
 			BigInteger valor = new BigInteger(valoresBigInteger[i]);
-			BigInteger modulo = valor.mod(BigInteger("2"));
+			BigInteger modulo =new BigInteger("2");
 			
-			if(modulo == java.math.BigInteger.ZERO) {
+			if(valor.mod(modulo) == java.math.BigInteger.ZERO) {
 				valor = valor.subtract(java.math.BigInteger.ONE);
 			}
 			
@@ -131,13 +131,9 @@ public class Main_P1 {
 				// TestsPrimalitat.testMillerRabin(valor);
 			}
 			long endTime = System.nanoTime();
-			//System.out.println("Primo mas cercano" + valor);
-			scFit.println(valoresBigInteger[i] + "Primo mas grande : "+ valor + "Tiempo transcurrido : " + (endTime - startTime)* 10e6+ " ms" );
+			long totalTime = (long) ((endTime - startTime)* 10e6);
+			scFit.println(valoresBigInteger[i] + " Primo mas grande : "+ valor + " Tiempo transcurrido : " + totalTime+ " ms" );
 		}
 		numerosSalida.close();
-	}
-
-	private static java.math.BigInteger BigInteger(String string) {
-		return null;
-	}
+	} 
 }
