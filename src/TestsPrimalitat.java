@@ -3,7 +3,6 @@ import java.util.Random;
 
 public class TestsPrimalitat {
 
-	private static final byte[] String = null;
 	public static int[] primesFrom2two80k = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67,
 			71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181,
 			191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307,
@@ -513,9 +512,16 @@ public class TestsPrimalitat {
 			79813, 79817, 79823, 79829, 79841, 79843, 79847, 79861, 79867, 79873, 79889, 79901, 79903, 79907, 79939,
 			79943, 79967, 79973, 79979, 79987, 79997, 79999 };
 
-	// Funciona hasta cierto limite, ya que para hacer la comprobacion generamos un
-	// numero random entre 1 y p-1
-	// eficiente(falta Javadoc)
+	/**
+	 * @param long primo a comprobar
+	 * 
+	 *             Funciona hasta cierto limite, ya que para hacer la comprobacion
+	 *             generamos un numero random entre 1 y p-1
+	 * 
+	 *             Si a(numero random)^(p-1) no es congruente != 1 mod (p)
+	 * 
+	 * @return boolean true si es primo
+	 */
 	public static boolean testFermatNormal(long p) {
 		long i = 0;
 		boolean primo = true;
@@ -530,7 +536,16 @@ public class TestsPrimalitat {
 		return primo;
 	}
 
-	// Hace a^b%c de manera mecanica, osea a*a%c b veces
+	/**
+	 * @param a
+	 * @param b
+	 * @param c
+	 * 
+	 *          Hace a^b%c de manera rudimentaria. Un bucle que hace a*a%c - b veces
+	 *          (es lo mismo a*a%c*a%c*a%c... b veces que a^b%c)
+	 * 
+	 * @return
+	 */
 	public static long a_pow_b_mod_c_normal(long a, long b, long c) {
 		long resultat = 1;
 		for (int i = 0; i < b; i++) {
@@ -539,7 +554,14 @@ public class TestsPrimalitat {
 		return resultat;
 	}
 
-	// Finalizado (falta Javadoc)
+	/**
+	 * @param BigInteger primo a comprobar
+	 * 
+	 *                   Si a(numero random)^(p-1) no es congruente != 1 mod (p)
+	 * 
+	 * @return boolean true si es primo (posible primo ya que tenemos los numeros de
+	 *         carmichael que pueden hacernos fallar)
+	 */
 	public static boolean testFermatBigInt(BigInteger p) {
 		BigInteger i = BigInteger.ZERO;
 		boolean primo = true;
@@ -557,34 +579,47 @@ public class TestsPrimalitat {
 		return primo;
 	}
 
-	// Funciona hasta cierto limite, ya que para hacer la comprobacion generamos un
-	// numero random entre 2 y p-4
-	// a partir de un numero alto (tan alto como para que p^(numero random entre 1 y
-	// p-1) sobrepase 2^64)
-	// para arriba puede comenzar a fallar (falta Javadoc)
+	/**
+	 * @param long primo a comprobar
+	 * 
+	 *             Genera un numero random [2,p-2]
+	 * 
+	 * @return boolean true si es primo
+	 */
 	public static boolean testMillerRabin(long p) {
-		long a = 2 + (long) (Math.random() % (p - 4));
+		boolean primo = true;
 		long d = p - 1;
-
 		// Generamos d (vamos a dividir entre 2 p-1 hasta que deje de ser par)
+		// O lo que es lo mismo computarlo hasta que d*2^r
 		while (d % 2 == 0)
 			d /= 2;
+		
+		//Con 4 pruebas por numero es mas que suficiente para probar que es primo
+		int i = 0;
+		while(i<4 && primo){
+			long a = 2 + (long) (Math.random() % (p - 4));
 
-		long x = a_pow_b_mod_c_normal(a, d, p);
+			long x = a_pow_b_mod_c_normal(a, d, p);
 
-		// Sigue haciendo X^2 mientras una de las siguientes hipotesis no se cumpla
-		// 1 - d no llegue a p-1
-		// 2 - (x^2) % n no es 1
-		// 3 - (x^2) % n no es -1
-		while (d != p - 1) {
-			x = (x * x) % p;
-			d *= 2;
-			if (x == 1)
-				return false;
-			if (x == p - 1)
-				return true;
+			// Sigue haciendo X^2 mientras una de las siguientes hipotesis no se cumpla
+			// 1 - d no llegue a p-1
+			// 2 - (x^2) % n no es 1
+			// 3 - (x^2) % n no es n-1
+			while (d != p - 1) {
+				x = (x * x) % p;
+				d *= 2;
+				if (x == 1) // Si cumple el teorema de Fermat no es primo
+					primo = false;
+				
+				if (x == p - 1) // Si cumple que x^2 % p = p-1 es un primo
+					primo = true;
+				 // Si llega hasta aqui es que es compuesto / primo
+			}
+			if(primo == false)
+			return false;
+			i++;
 		}
-		return false;
+		return primo;
 	}
 
 	// Funciona, pero es uno de los menos eficientes - Complejidad Raiz(N) (falta

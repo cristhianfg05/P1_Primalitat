@@ -11,7 +11,7 @@ public class Main_P1 {
 	private static final BigInteger BigInteger = null;
 
 	public static void main(String[] args) throws IOException {
-		final int tamanofichero = 1;
+		final int tamanofichero = 8;
 		String[] valoresBigInteger;
 		valoresBigInteger = leerFicheroBigInteger(tamanofichero);
 		escribirSalidaBI(tamanofichero, valoresBigInteger);
@@ -19,6 +19,7 @@ public class Main_P1 {
 		//valores = leerFichero(tamanofichero);
 		//escribirSalidaLong(tamanofichero, valores);
 		//System.out.print(TestsPrimalitat.testFermatNormal(6346339));
+		System.out.print(TestsPrimalitat.testMillerRabin(79999));
 
 		/*
 		 * System.out.println("Case: "+numero);
@@ -34,13 +35,12 @@ public class Main_P1 {
 
 	public static String[] leerFicheroBigInteger(int size) throws FileNotFoundException {
 		String[] numeros = new String[size];
-		File myObj = new File("Numeros.txt");
+		File myObj = new File("NumerosBigInt.txt");
 		Scanner myReader = new Scanner(myObj);
 		int i = 0;
 		if (myObj.exists()) {
 			while (myReader.hasNext()) {
 				numeros[i] = myReader.next();
-				System.out.print(numeros[i] + "\n");
 				i++;
 			}
 		}
@@ -50,13 +50,12 @@ public class Main_P1 {
 
 	public static long[] leerFichero(int size) throws FileNotFoundException {
 		long[] numeros = new long[size];
-		File myObj = new File("Numeros.txt");
+		File myObj = new File("NumerosLong.txt");
 		Scanner myReader = new Scanner(myObj);
 		int i = 0;
 		if (myObj.exists()) {
 			while (myReader.hasNext()) {
 				numeros[i] = myReader.nextLong();
-				System.out.print(numeros[i] + "\n");
 				i++;
 			}
 		}
@@ -64,9 +63,6 @@ public class Main_P1 {
 		return numeros;
 	}
 
-	public static void guardarFichero(String[] tabla) {
-
-	}
 
 	public static String numeroAnteriorBigInteger(String n) {
 		long num = Integer.parseInt(n) - 2;
@@ -98,8 +94,7 @@ public class Main_P1 {
 				// TestsPrimalitat.testMillerRabin(j)
 			}
 			long endTime = System.nanoTime();
-			System.out.print("Primo mas cercano " + j);
-			scFit.println(valores[i] + " , " + j + " , " + (endTime - startTime));
+			scFit.println(valores[i]+2 + " , " + j + " , " + (endTime - startTime));
 			primo = false;
 		}
 		numerosSalida.close();
@@ -117,9 +112,9 @@ public class Main_P1 {
 			if(valor.mod(modulo) == java.math.BigInteger.ZERO) {
 				valor = valor.subtract(java.math.BigInteger.ONE);
 			}
+			System.out.println(valor);
 			
 			long startTime = System.nanoTime();
-			
 			while (valor.compareTo(java.math.BigInteger.ZERO) == 1 && !primo) {
 				if(!TestsPrimalitat.testFermatBigInt(valor)) {
 					valor = valor.subtract(java.math.BigInteger.TWO);
@@ -133,6 +128,7 @@ public class Main_P1 {
 			long endTime = System.nanoTime();
 			long totalTime = (long) ((endTime - startTime)* 10e6);
 			scFit.println(valoresBigInteger[i] + " , "+ valor + " , " + totalTime);
+			primo = false;
 		}
 		numerosSalida.close();
 	} 
