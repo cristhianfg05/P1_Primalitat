@@ -616,29 +616,33 @@ public class TestsPrimalitat {
 		return false;
 
 	}
-	
-	//Test Miller Rabin en StandBy
-	public static boolean testMillerRabin2 (long p) {
+
+	// Test Miller Rabin en StandBy
+	/**
+	 * @param p
+	 * @return
+	 */
+	public static boolean testMillerRabin2(long p) {
 		long d = p - 1;
 		while (d % 2 == 0)
 			d /= 2;
-		long s = (long)((Math.log((double)(p-1)/d)/Math.log(2.0))/d);
+		long s = (long) ((Math.log((double) (p - 1) / d) / Math.log(2.0)) / d);
 		boolean primo;
-		for(int i = 0; i<4 ; i++) {
+		for (int i = 0; i < 4; i++) {
 			primo = false;
 			long a = 2 + (long) (Math.random() % (p - 4));
-			if(1 == a_pow_b_mod_c_normal(a, d, p))
+			if (1 == a_pow_b_mod_c_normal(a, d, p))
 				primo = true;
 			else {
 				long r = 0;
 				while (r <= s && !primo) {
-					if((p-1)==a_pow_b_mod_c_normal(a, (long)Math.pow(2, r) * d, p))
+					if ((p - 1) == a_pow_b_mod_c_normal(a, (long) Math.pow(2, r) * d, p))
 						primo = true;
 					r++;
 				}
-				
+
 			}
-			if(!primo)
+			if (!primo)
 				return false;
 		}
 		return true;
@@ -646,6 +650,10 @@ public class TestsPrimalitat {
 
 	// Funciona, pero es uno de los menos eficientes - Complejidad Raiz(N) (falta
 	// Javadoc)
+	/**
+	 * @param p
+	 * @return
+	 */
 	public static boolean esPrimoRaizDeP(long p) {
 		boolean primo = true;
 		long i = 3;
@@ -659,6 +667,10 @@ public class TestsPrimalitat {
 	}
 
 	// Funciona, pero es uno de los menos eficientes - Complejidad N (falta Javadoc)
+	/**
+	 * @param p
+	 * @return
+	 */
 	public static boolean esPrimoHasta_P_Partido2(long p) {
 		boolean primo = true;
 		long i = 3;
@@ -671,6 +683,10 @@ public class TestsPrimalitat {
 	}
 
 	// Funciona, pero es uno de los menos eficientes - Complejidad N (falta Javadoc)
+	/**
+	 * @param p
+	 * @return
+	 */
 	public static boolean esPrimoHastaP(long p) {
 		boolean primo = true;
 		long i = 3;
@@ -682,9 +698,15 @@ public class TestsPrimalitat {
 		return primo;
 	}
 
-	// Funciona, es uno de los menos eficientes - Complejidad N (puede trabajar
-	// hasta 2^(2^64) ya que esta con BigInteger)
-	// (falta Javadoc)
+	/**
+	 * @param BigInteger p (posible primo)
+	 * 
+	 *                   Funciona, es uno de los menos eficientes - Complejidad N
+	 *                   (puede trabajar hasta 2^(2^64) ya que esta con BigInteger)
+	 * 
+	 * @return
+	 * 
+	 */
 	public static boolean esPrimoHastaP_BigInteger(BigInteger p) {
 		boolean primo = true;
 		BigInteger i = new BigInteger("3");
@@ -696,9 +718,14 @@ public class TestsPrimalitat {
 		return primo;
 	}
 
-	// Funciona, es uno de los menos eficientes - Complejidad N (puede trabajar
-	// hasta 2^(2^64) ya que esta con BigInteger)
-	// (falta Javadoc)
+	/**
+	 * @param BigInteger p (posible primo)
+	 * 
+	 *                   Funciona, es uno de los menos eficientes - Complejidad N
+	 *                   (puede trabajar hasta 2^(2^64) ya que esta con BigInteger)
+	 * 
+	 * @return
+	 */
 	public static boolean esPrimoHastaP_Pardido_2_BigInteger(BigInteger p) {
 		boolean primo = true;
 		BigInteger i = new BigInteger("3");
@@ -710,9 +737,17 @@ public class TestsPrimalitat {
 		return primo;
 	}
 
-	// Funciona, es uno de los menos eficientes - Complejidad N (puede trabajar
-	// hasta 2^(2^64) ya que esta con BigInteger)
-	// (falta Javadoc)
+	//
+
+	/**
+	 * @param BigInteger p (posible primo)
+	 * 
+	 *                   Funciona, es uno de los menos eficientes - Complejidad Raiz
+	 *                   de N (puede trabajar hasta 2^(2^64) ya que esta con
+	 *                   BigInteger)
+	 * 
+	 * @return
+	 */
 	public static boolean esPrimoHastaRaizDeP_BigInteger(BigInteger p) {
 		boolean primo = true;
 		BigInteger i = new BigInteger("3");
