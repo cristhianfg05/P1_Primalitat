@@ -588,7 +588,7 @@ public class TestsPrimalitat {
 	 */
 	public static boolean testMillerRabin(long p) {
 		long d = p - 1;
-		// Generamos d (vamos a dividir entre 2 p-1 hasta que deje de ser par)
+		// Generamos d (vamos a dividir entre 2 p-2 hasta que deje de ser par)
 		// O lo que es lo mismo computarlo hasta que d*2^r
 		while (d % 2 == 0)
 			d /= 2;
@@ -596,8 +596,8 @@ public class TestsPrimalitat {
 		long a = 2 + (long) (Math.random() % (p - 4));
 
 		long x = a_pow_b_mod_c_normal(a, d, p);
-		
-		if(x == 1 || x == p-1)
+
+		if (x == 1 || x == p - 1)
 			return true;
 		// Sigue haciendo X^2 mientras una de las siguientes hipotesis no se cumpla
 		// 1 - d no llegue a p-1
@@ -606,15 +606,42 @@ public class TestsPrimalitat {
 		while (d != p - 1) {
 			x = (x * x) % p;
 			d *= 2;
-			if (x == 1) // Si cumple el teorema de Fermat no es primo
+			if (x == 1)
 				return false;
 
 			if (x == p - 1) // Si cumple que x^2 % p = p-1 es un primo
 				return true;
-			// Si llega hasta aqui es que es compuesto / primo
+			// Si llega hasta aqui es que es compuesto y no primo
 		}
 		return false;
 
+	}
+	
+	//Test Miller Rabin en StandBy
+	public static boolean testMillerRabin2 (long p) {
+		long d = p - 1;
+		while (d % 2 == 0)
+			d /= 2;
+		long s = (long)((Math.log((double)(p-1)/d)/Math.log(2.0))/d);
+		boolean primo;
+		for(int i = 0; i<4 ; i++) {
+			primo = false;
+			long a = 2 + (long) (Math.random() % (p - 4));
+			if(1 == a_pow_b_mod_c_normal(a, d, p))
+				primo = true;
+			else {
+				long r = 0;
+				while (r <= s && !primo) {
+					if((p-1)==a_pow_b_mod_c_normal(a, (long)Math.pow(2, r) * d, p))
+						primo = true;
+					r++;
+				}
+				
+			}
+			if(!primo)
+				return false;
+		}
+		return true;
 	}
 
 	// Funciona, pero es uno de los menos eficientes - Complejidad Raiz(N) (falta
@@ -660,7 +687,7 @@ public class TestsPrimalitat {
 	// (falta Javadoc)
 	public static boolean esPrimoHastaP_BigInteger(BigInteger p) {
 		boolean primo = true;
-		BigInteger i = BigInteger.TWO;
+		BigInteger i = new BigInteger("3");
 		while (i.compareTo(p) == -1) {
 			if (p.divideAndRemainder(i)[1] == BigInteger.ZERO)
 				primo = false;
@@ -674,7 +701,7 @@ public class TestsPrimalitat {
 	// (falta Javadoc)
 	public static boolean esPrimoHastaP_Pardido_2_BigInteger(BigInteger p) {
 		boolean primo = true;
-		BigInteger i = BigInteger.TWO;
+		BigInteger i = new BigInteger("3");
 		while (i.compareTo(p.divide(BigInteger.TWO)) == -1) {
 			if (p.divideAndRemainder(i)[1] == BigInteger.ZERO)
 				primo = false;
@@ -688,7 +715,7 @@ public class TestsPrimalitat {
 	// (falta Javadoc)
 	public static boolean esPrimoHastaRaizDeP_BigInteger(BigInteger p) {
 		boolean primo = true;
-		BigInteger i = BigInteger.TWO;
+		BigInteger i = new BigInteger("3");
 		while (i.compareTo(p.sqrt()) == -1) {
 			if (p.divideAndRemainder(i)[1] == BigInteger.ZERO)
 				primo = false;

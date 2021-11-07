@@ -18,7 +18,7 @@ public class Main_P1 {
 		//valores = leerFichero(tamanofichero);
 		//escribirSalidaLong(tamanofichero, valores);
 		//System.out.print(TestsPrimalitat.testFermatNormal(6346339));
-		System.out.print(TestsPrimalitat.testMillerRabin(79687));
+		System.out.print(TestsPrimalitat.testMillerRabin2(50069));
 
 		/*
 		 * System.out.println("Case: "+numero);
