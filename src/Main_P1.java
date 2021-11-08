@@ -10,12 +10,12 @@ public class Main_P1 {
 
 	public static void main(String[] args) throws IOException {
 		final int tamanofichero = 8;
-		String[] valoresBigInteger;
-		valoresBigInteger = leerFicheroBigInteger(tamanofichero);
-		escribirSalidaBI(tamanofichero, valoresBigInteger);
-		 //long[] valores;
-		 //valores = leerFichero(tamanofichero);
-		 //escribirSalidaLong(tamanofichero, valores);
+		//String[] valoresBigInteger;
+		//valoresBigInteger = leerFicheroBigInteger(tamanofichero);
+		//escribirSalidaBI(tamanofichero, valoresBigInteger);
+		 long[] valores;
+		 valores = leerFichero(tamanofichero);
+		 escribirSalidaLong(tamanofichero, valores);
 		// System.out.print(TestsPrimalitat.testFermatNormal(6346339));
 
 	}
@@ -71,14 +71,14 @@ public class Main_P1 {
 				
 				//3 tests + 1 para asegurar que es primo 100% aunque es un metodo muy fiable
 				//Solo para Miller Rabin
-				for(int k = 0; k<3; k++) {
-					primo = TestsPrimalitat.testMillerRabin(j);
-				}
-				if (!TestsPrimalitat.testMillerRabin(j)) {
-					j = j - 2;
-				} else {
-					primo = true;
-				}
+				//for(int k = 0; k<3; k++) {
+					//primo = TestsPrimalitat.testMillerRabin(j);
+				//}
+				//if (!TestsPrimalitat.testMillerRabin(j)) {
+					//j = j - 2;
+				//} else {
+					//primo = true;
+				//}
 
 				/** Test con Long **/
 				// TestsPrimalitat.esPrimoHastaP(j)
@@ -112,7 +112,7 @@ public class Main_P1 {
 
 			long startTime = System.nanoTime();
 			while (valor.compareTo(java.math.BigInteger.ZERO) == 1 && !primo) {
-				if (!TestsPrimalitat.testFermatBigInt(valor)) {
+				if (!TestsPrimalitat.esPrimoHastaRaizDeP_BigInteger(valor)) {
 					valor = valor.subtract(java.math.BigInteger.TWO);
 				} else {
 					primo = true;

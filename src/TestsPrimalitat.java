@@ -766,7 +766,7 @@ public class TestsPrimalitat {
 	public static boolean esPrimoHastaP_BigInteger(BigInteger p) {
 		boolean primo = true;
 		BigInteger i = new BigInteger("3");
-		while (i.compareTo(p) == -1) {
+		while (i.compareTo(p) != 1 && primo) {
 			if (p.divideAndRemainder(i)[1] == BigInteger.ZERO)
 				primo = false;
 			i = i.add(BigInteger.TWO);
@@ -787,7 +787,7 @@ public class TestsPrimalitat {
 	public static boolean esPrimoHastaP_Pardido_2_BigInteger(BigInteger p) {
 		boolean primo = true;
 		BigInteger i = new BigInteger("3");
-		while (i.compareTo(p.divide(BigInteger.TWO)) == -1) {
+		while (i.compareTo(p.divide(BigInteger.TWO)) != 1 && primo) {
 			if (p.divideAndRemainder(i)[1] == BigInteger.ZERO)
 				primo = false;
 			i = i.add(BigInteger.TWO);
@@ -809,17 +809,15 @@ public class TestsPrimalitat {
 	 * @return
 	 */
 
-	public static boolean esPrimoRaizDeP(BigInteger p) {
-		BigInteger arrel = p.sqrt();
-		BigInteger contador = BigInteger.valueOf(3);
-
-		while (contador.compareTo(arrel) <= 0) { // contador < arrel
-			if (p.mod(contador).compareTo(BigInteger.ZERO) == 0)
-				return false; // Si (primer % contador) == 0 llavors noPrimer
-			else
-				contador = contador.add(BigInteger.TWO); // contador += 2
+	public static boolean esPrimoHastaRaizDeP_BigInteger(BigInteger p) {
+		boolean primo = true;
+		BigInteger i = new BigInteger("3");
+		while(i.compareTo(p.sqrt())!= 1 && primo) {
+			if(p.divideAndRemainder(i)[1]==BigInteger.ZERO) 
+				primo = false;
+			i=i.add(BigInteger.TWO);
 		}
-		return true;
+		return primo;
 	}
 
 	public static boolean testMillerRabin_BigInteger(BigInteger p) {
