@@ -524,24 +524,19 @@ public class TestsPrimalitat {
 	 */
 	/**
 	 * Metodo para comprobar si es un BigInt o para usar un long.
-	 * @param x ; sera el numero en string que leeremos del fichero, 
-	 * @return si devuelve cierto usaremos los bigints, y si es falso los longs. 
+	 * 
+	 * @param x ; sera el numero en string que leeremos del fichero,
+	 * @return si devuelve cierto usaremos los bigints, y si es falso los longs.
 	 */
-	private static boolean comprobarBI (String x) {
+	private static boolean comprobarBI(String x) {
 		boolean BI = false;
-		BigInteger bni = new BigInteger(x);		
-		if (bni.compareTo(new BigInteger("427591299"))>=0) BI = true; 	//92233720368547759999 4275912995	//Límit teòric de Long i límit utilitzat al programa per fer possible l'execució
+		BigInteger bni = new BigInteger(x);
+		if (bni.compareTo(new BigInteger("427591299")) >= 0)
+			BI = true; // 92233720368547759999 4275912995 //Lï¿½mit teï¿½ric de Long i lï¿½mit utilitzat al
+						// programa per fer possible l'execuciï¿½
 		return BI;
 	}
-	
-	
-	
-	
-	
-	
-	
 
-	
 	public static boolean testFermatNormal(long p) {
 		long i = 0;
 		boolean primo = true;
@@ -555,7 +550,7 @@ public class TestsPrimalitat {
 		}
 		return primo;
 	}
-	
+
 	/**
 	 * @param a
 	 * @param b
@@ -572,28 +567,27 @@ public class TestsPrimalitat {
 			resultat = resultat * a % c;
 		}
 		return resultat;
-		
+
 	}
+
 	/**
 	 * 
 	 * @param a
 	 * @param b
 	 * @param c
 	 * 
-	 * 				
+	 * 
 	 * @return
 	 */
 	public static BigInteger a_pow_b_mod_c_BigInteger(BigInteger a, BigInteger b, BigInteger c) {
-		BigInteger resultat = BigInteger.ONE;	
-	
-		for (BigInteger i =BigInteger.ZERO; i.compareTo(b)== -1;i.add(BigInteger.ONE)) {
+		BigInteger resultat = BigInteger.ONE;
+
+		for (BigInteger i = BigInteger.ZERO; i.compareTo(b) == -1; i.add(BigInteger.ONE)) {
 			resultat = resultat.multiply(a).divide(c);
 		}
-		
-		return resultat;		
+
+		return resultat;
 	}
-	
-	
 
 	/**
 	 * @param BigInteger primo a comprobar
@@ -663,29 +657,42 @@ public class TestsPrimalitat {
 	// Test Miller Rabin en StandBy
 	/**
 	 * @param p
+	 * 
+	 *          Metodo Miller Rabin Wiki implementado
+	 * 
 	 * @return
 	 */
-	public static boolean testMillerRabin2(long p) {
-		long d = p - 1;
-		while (d % 2 == 0)
-			d /= 2;
-		long s = (long) ((Math.log((double) (p - 1) / d) / Math.log(2.0)) / d);
-		boolean primo;
+	public static boolean testMR(long n) {
+		// escriure n = 2^s * d + 1 amb s senar
+		long aux = n - 1;
+		long s = 0;
+		while (aux % 2 == 0) {
+			aux = aux / 2;
+			s = s + 1;
+		}
+		long d = aux;
+		if (s % 2 == 0) {
+			s = s - 1;
+			d = 2 * aux;
+		}
+
 		for (int i = 0; i < 4; i++) {
-			primo = false;
-			long a = 2 + (long) (Math.random() % (p - 4));
-			if (1 == a_pow_b_mod_c_normal(a, d, p))
-				primo = true;
-			else {
-				long r = 0;
-				while (r <= s && !primo) {
-					if ((p - 1) == a_pow_b_mod_c_normal(a, (long) Math.pow(2, r) * d, p))
-						primo = true;
+			boolean primer = false;
+			long max = n - 1, min = 2;
+			long a = (long) Math.floor(Math.random() * (max - min + 1) + min);
+			if (a_pow_b_mod_c_normal(a, d, n) == 1) {
+				primer = true;
+			} else {
+				int r = 0;
+				while (r <= s && !primer) {
+					if (a_pow_b_mod_c_normal(a, (long) Math.pow(2, r) * d, n) == n - 1) {
+						primer = true;
+					}
 					r++;
 				}
-
 			}
-			if (!primo)
+
+			if (!primer)
 				return false;
 		}
 		return true;
@@ -802,13 +809,15 @@ public class TestsPrimalitat {
 	 * @return
 	 */
 
-	public static boolean esPrimoRaizDeP (BigInteger p) {
+	public static boolean esPrimoRaizDeP(BigInteger p) {
 		BigInteger arrel = p.sqrt();
 		BigInteger contador = BigInteger.valueOf(3);
-			
-		while (contador.compareTo(arrel) <= 0) {										//contador < arrel
-			if (p.mod(contador).compareTo(BigInteger.ZERO) == 0) return false;		//Si (primer % contador) == 0 llavors noPrimer				
-			else contador = contador.add(BigInteger.TWO);								// contador += 2
+
+		while (contador.compareTo(arrel) <= 0) { // contador < arrel
+			if (p.mod(contador).compareTo(BigInteger.ZERO) == 0)
+				return false; // Si (primer % contador) == 0 llavors noPrimer
+			else
+				contador = contador.add(BigInteger.TWO); // contador += 2
 		}
 		return true;
 	}
@@ -818,10 +827,10 @@ public class TestsPrimalitat {
 		BigInteger d = p.subtract(BigInteger.ONE);
 		while (d.mod(BigInteger.TWO) == BigInteger.ZERO) {
 			d.divide(BigInteger.TWO);
-			
+
 		}
 		BigInteger a = (BigInteger.TWO);
-		BigInteger x = a_pow_b_mod_c_BigInteger(a,d,p);
+		BigInteger x = a_pow_b_mod_c_BigInteger(a, d, p);
 		return primo;
 	}
 }

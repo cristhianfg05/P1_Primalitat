@@ -9,15 +9,14 @@ import java.util.Scanner;
 public class Main_P1 {
 
 	public static void main(String[] args) throws IOException {
-		final int tamanofichero = 1;
-		//String[] valoresBigInteger;
-		//valoresBigInteger = leerFicheroBigInteger(tamanofichero);
-		//escribirSalidaBI(tamanofichero, valoresBigInteger);
-		 long[] valores;
-		 valores = leerFichero(tamanofichero);
-		 escribirSalidaLong(tamanofichero, valores);
+		final int tamanofichero = 8;
+		String[] valoresBigInteger;
+		valoresBigInteger = leerFicheroBigInteger(tamanofichero);
+		escribirSalidaBI(tamanofichero, valoresBigInteger);
+		 //long[] valores;
+		 //valores = leerFichero(tamanofichero);
+		 //escribirSalidaLong(tamanofichero, valores);
 		// System.out.print(TestsPrimalitat.testFermatNormal(6346339));
-		System.out.print(TestsPrimalitat.testMillerRabin2(50069));
 
 	}
 
