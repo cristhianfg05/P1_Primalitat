@@ -8,28 +8,17 @@ import java.util.Scanner;
 
 public class Main_P1 {
 
-
 	public static void main(String[] args) throws IOException {
-		final int tamanofichero = 8;
-		String[] valoresBigInteger;
-		valoresBigInteger = leerFicheroBigInteger(tamanofichero);
-		escribirSalidaBI(tamanofichero, valoresBigInteger);
-		//long[] valores;
-		//valores = leerFichero(tamanofichero);
-		//escribirSalidaLong(tamanofichero, valores);
-		//System.out.print(TestsPrimalitat.testFermatNormal(6346339));
+		final int tamanofichero = 1;
+		//String[] valoresBigInteger;
+		//valoresBigInteger = leerFicheroBigInteger(tamanofichero);
+		//escribirSalidaBI(tamanofichero, valoresBigInteger);
+		 long[] valores;
+		 valores = leerFichero(tamanofichero);
+		 escribirSalidaLong(tamanofichero, valores);
+		// System.out.print(TestsPrimalitat.testFermatNormal(6346339));
 		System.out.print(TestsPrimalitat.testMillerRabin2(50069));
 
-		/*
-		 * System.out.println("Case: "+numero);
-		 * System.out.print(TestsPrimalitat.esPrimoRaizDeP(numero)+"\n");
-		 * System.out.print(TestsPrimalitat.esPrimoHastaP(numero)+"\n");
-		 * System.out.print(TestsPrimalitat.esPrimoHasta_P_Partido2(numero)+"\n");
-		 * System.out.print(TestsPrimalitat.esPrimoHastaP_BigInteger(new
-		 * BigInteger(Integer.toString(numero)))+"\n");
-		 * System.out.print(TestsPrimalitat.esPrimoHastaP_Pardido_2_BigInteger(new
-		 * BigInteger(Integer.toString(numero)))+"\n");
-		 */
 	}
 
 	public static String[] leerFicheroBigInteger(int size) throws FileNotFoundException {
@@ -62,73 +51,82 @@ public class Main_P1 {
 		return numeros;
 	}
 
-
 	public static String numeroAnteriorBigInteger(String n) {
 		long num = Integer.parseInt(n) - 2;
 		n = String.valueOf(num);
 		return n;
 	}
-	
+
 	public static void escribirSalidaLong(int tamanofichero, long valores[]) throws IOException {
 		FileWriter numerosSalida = new FileWriter("NumerosSalida.txt");
 		PrintWriter scFit = new PrintWriter(numerosSalida, true);
 		boolean primo = false;
 		for (int i = 0; i < tamanofichero; i++) {
+			scFit.print(valores[i] + ", ");
 			if (valores[i] % 2 == 0)
 				valores[i] = valores[i] - 1;
+
 			long j = valores[i];
 			long startTime = System.nanoTime();
 			while (j > 0 && !primo) {
-				if(!TestsPrimalitat.testMillerRabin(j)) {
-					j =j - 2;
-				}else {
+				
+				//3 tests + 1 para asegurar que es primo 100% aunque es un metodo muy fiable
+				//Solo para Miller Rabin
+				for(int k = 0; k<3; k++) {
+					primo = TestsPrimalitat.testMillerRabin(j);
+				}
+				if (!TestsPrimalitat.testMillerRabin(j)) {
+					j = j - 2;
+				} else {
 					primo = true;
 				}
-				
 
 				/** Test con Long **/
 				// TestsPrimalitat.esPrimoHastaP(j)
 				// TestsPrimalitat.esPrimoHasta_P_Partido2(j)
 				// TestsPrimalitat.testFermatNormal(j)
 				// TestsPrimalitat.testMillerRabin(j)
+				// for(int k = 0; k<3; k++) {
+				// primo = TestsPrimalitat.testMillerRabin(j);
+				// }
 			}
 			long endTime = System.nanoTime();
-			scFit.println(valores[i]+2 + " , " + j + " , " + (endTime - startTime));
+			scFit.println(j + ", " + (endTime - startTime));
 			primo = false;
 		}
 		numerosSalida.close();
 	}
-	
-	public static void escribirSalidaBI (int tamanofichero, String[] valoresBigInteger) throws IOException {
+
+	public static void escribirSalidaBI(int tamanofichero, String[] valoresBigInteger) throws IOException {
 		FileWriter numerosSalida = new FileWriter("NumerosSalidaBigInt.txt");
 		PrintWriter scFit = new PrintWriter(numerosSalida, true);
-		boolean primo = false; 
-		
+		boolean primo = false;
+
 		for (int i = 0; i < tamanofichero; i++) {
 			BigInteger valor = new BigInteger(valoresBigInteger[i]);
-			BigInteger modulo =new BigInteger("2");
-			
-			if(valor.mod(modulo) == java.math.BigInteger.ZERO) {
+			BigInteger modulo = new BigInteger("2");
+
+			if (valor.mod(modulo) == java.math.BigInteger.ZERO) {
 				valor = valor.subtract(java.math.BigInteger.ONE);
 			}
 			System.out.println(valor);
-			
+
 			long startTime = System.nanoTime();
 			while (valor.compareTo(java.math.BigInteger.ZERO) == 1 && !primo) {
-				if(!TestsPrimalitat.testFermatBigInt(valor)) {
+				if (!TestsPrimalitat.testFermatBigInt(valor)) {
 					valor = valor.subtract(java.math.BigInteger.TWO);
 				} else {
 					primo = true;
 				}
-				
-				/** Tests con BigInt**/
+
+				/** Tests con BigInt **/
 				// TestsPrimalitat.testMillerRabin(valor);
 			}
 			long endTime = System.nanoTime();
-			long totalTime = (long) ((endTime - startTime)* 10e6);
-			scFit.println(valoresBigInteger[i] + " , "+ valor + " , " + totalTime);
+			long totalTime = (long) ((endTime - startTime) * 10e6);
+			scFit.println(valoresBigInteger[i] + " , " + valor + " , " + totalTime);
 			primo = false;
 		}
 		numerosSalida.close();
-	} 
+	}
 }

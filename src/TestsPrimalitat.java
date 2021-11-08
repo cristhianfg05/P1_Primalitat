@@ -582,7 +582,9 @@ public class TestsPrimalitat {
 	/**
 	 * @param long primo a comprobar
 	 * 
-	 *             Genera un numero random [2,p-2]
+	 *             Genera un numero random [2,p-2] = a Si a^d es congruente a 1 (mod
+	 *             p) el numero es un primo Si a^d es congruente a p-1 (mod p) el
+	 *             numero es compuesto
 	 * 
 	 * @return boolean true si es primo
 	 */
@@ -648,10 +650,11 @@ public class TestsPrimalitat {
 		return true;
 	}
 
-	// Funciona, pero es uno de los menos eficientes - Complejidad Raiz(N) (falta
-	// Javadoc)
 	/**
 	 * @param p
+	 * 
+	 *          Desde 3 hasta raiz de P sin pasar por los pares
+	 * 
 	 * @return
 	 */
 	public static boolean esPrimoRaizDeP(long p) {
@@ -661,14 +664,16 @@ public class TestsPrimalitat {
 			if (p % i == 0) {
 				primo = false;
 			}
-			i++;
+			i += 2;
 		}
 		return primo;
 	}
 
-	// Funciona, pero es uno de los menos eficientes - Complejidad N (falta Javadoc)
 	/**
 	 * @param p
+	 * 
+	 *          Desde 3 hasta P/2 descartando los pares
+	 * 
 	 * @return
 	 */
 	public static boolean esPrimoHasta_P_Partido2(long p) {
@@ -677,14 +682,16 @@ public class TestsPrimalitat {
 		while (i <= p / 2 && primo) {
 			if (p % i == 0)
 				primo = false;
-			i++;
+			i += 2;
 		}
 		return primo;
 	}
 
-	// Funciona, pero es uno de los menos eficientes - Complejidad N (falta Javadoc)
 	/**
 	 * @param p
+	 * 
+	 *          Desde 3 hasta P sin pasar por los pares
+	 * 
 	 * @return
 	 */
 	public static boolean esPrimoHastaP(long p) {
@@ -693,7 +700,7 @@ public class TestsPrimalitat {
 		while (i < p && primo) {
 			if (p % i == 0)
 				primo = false;
-			i++;
+			i += 2;
 		}
 		return primo;
 	}
@@ -703,6 +710,7 @@ public class TestsPrimalitat {
 	 * 
 	 *                   Funciona, es uno de los menos eficientes - Complejidad N
 	 *                   (puede trabajar hasta 2^(2^64) ya que esta con BigInteger)
+	 *                   Desde 3 hasta P sin pasar por los numeros pares
 	 * 
 	 * @return
 	 * 
@@ -713,7 +721,7 @@ public class TestsPrimalitat {
 		while (i.compareTo(p) == -1) {
 			if (p.divideAndRemainder(i)[1] == BigInteger.ZERO)
 				primo = false;
-			i = i.add(BigInteger.ONE);
+			i = i.add(BigInteger.TWO);
 		}
 		return primo;
 	}
@@ -723,6 +731,8 @@ public class TestsPrimalitat {
 	 * 
 	 *                   Funciona, es uno de los menos eficientes - Complejidad N
 	 *                   (puede trabajar hasta 2^(2^64) ya que esta con BigInteger)
+	 *                   Busca hasta P/2 si no encuentra un divisor entonces dejamos
+	 *                   de buscar
 	 * 
 	 * @return
 	 */
@@ -732,7 +742,7 @@ public class TestsPrimalitat {
 		while (i.compareTo(p.divide(BigInteger.TWO)) == -1) {
 			if (p.divideAndRemainder(i)[1] == BigInteger.ZERO)
 				primo = false;
-			i = i.add(BigInteger.ONE);
+			i = i.add(BigInteger.TWO);
 		}
 		return primo;
 	}
@@ -744,7 +754,9 @@ public class TestsPrimalitat {
 	 * 
 	 *                   Funciona, es uno de los menos eficientes - Complejidad Raiz
 	 *                   de N (puede trabajar hasta 2^(2^64) ya que esta con
-	 *                   BigInteger)
+	 *                   BigInteger) Busca hasta P pero avanzando desde 3 hasta raiz
+	 *                   de P sin pasar por los pares ya que par x par = par y par x
+	 *                   impar = par
 	 * 
 	 * @return
 	 */
@@ -754,7 +766,7 @@ public class TestsPrimalitat {
 		while (i.compareTo(p.sqrt()) == -1) {
 			if (p.divideAndRemainder(i)[1] == BigInteger.ZERO)
 				primo = false;
-			i = i.add(BigInteger.ONE);
+			i = i.add(BigInteger.TWO);
 		}
 		return primo;
 	}
