@@ -532,15 +532,7 @@ public class TestsPrimalitat {
 	 * 
 	 * @return si devuelve cierto usaremos los bigints, y si es falso los longs.
 	 */
-	private static boolean comprobarBI(String x) {
-		boolean BI = false;
-		BigInteger bni = new BigInteger(x);
-		if (bni.compareTo(new BigInteger("427591299")) >= 0)
-			BI = true; // 92233720368547759999 4275912995 //L�mit te�ric de Long i l�mit utilitzat al
-						// programa per fer possible l'execuci�
-		return BI;
-	}
-
+	
 	public static boolean testFermatNormal(long p) {
 		long i = 0;
 		boolean primo = true;
@@ -812,17 +804,32 @@ public class TestsPrimalitat {
 		return primo;
 	}
 
-	public static boolean testMillerRabin_BigInteger(BigInteger p) {
-		boolean primo = true;
-		BigInteger d = p.subtract(BigInteger.ONE);
-		while (d.mod(BigInteger.TWO) == BigInteger.ZERO) {
-			d.divide(BigInteger.TWO);
-
-		}
-		BigInteger a = (BigInteger.TWO);
-		// ESTE ES EL METODO QUE TIENES QUE UTILIZAR PARA HACER EL MOD POW, TE LO DEJO
-		// ASÍ, PORFA ACABALOO PARA HOY
-		BigInteger x = a.modPow(d, p);
-		return primo;
-	}
+	public static boolean testMillerRabin_BigInteger(BigInteger p){
+		   
+	    BigInteger d = p.subtract(BigInteger.ONE);
+	    BigInteger two = BigInteger.TWO;
+	    BigInteger four = BigInteger.valueOf(4);
+	 
+	    while(d.mod(two).compareTo(BigInteger.ZERO)==0 )
+	    {
+	      d.divide(two);
+	      
+	    }
+	    
+	    BigInteger randomNum = new BigInteger((int) (Math.log(p.intValue()) / Math.log(2)), new Random());
+	    randomNum = randomNum.divide(p.subtract(four));
+	    randomNum = randomNum.add(two);
+	    randomNum = randomNum.modPow(d, p);
+	    
+	    if ((randomNum.compareTo(BigInteger.ONE)==0) || (randomNum.compareTo(p.subtract(BigInteger.ONE))==0)) return true;
+	     
+	    while(d.compareTo(p.subtract(BigInteger.ONE))!= 0) {
+	    	randomNum.multiply(randomNum).mod(p);
+	    	d.multiply(two);
+	    	if (randomNum.compareTo(BigInteger.ONE)==0) return false;
+	    	if (randomNum.compareTo(p.subtract(BigInteger.ONE))== 0) return true;
+	    
+	    }
+	    return false;
+}
 }
