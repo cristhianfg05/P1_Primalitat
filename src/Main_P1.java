@@ -20,7 +20,7 @@ public class Main_P1 {
 		
 		//PRINT PARA TESTEAR CADA METODO
 		//System.out.print(TestsPrimalitat.testMillerRabin(79999));
-		//System.out.print(TestsPrimalitat.testFermatBigInt(new BigInteger("561")));
+		//System.out.print(TestsPrimalitat.testFermatBigInt(new BigInteger("9223372036854775807759")));
 	}
 
 	public static String[] leerFicheroBigInteger(int size) throws FileNotFoundException {
@@ -53,11 +53,6 @@ public class Main_P1 {
 		return numeros;
 	}
 
-	public static String numeroAnteriorBigInteger(String n) {
-		long num = Integer.parseInt(n) - 2;
-		n = String.valueOf(num);
-		return n;
-	}
 
 	public static void escribirSalidaLong(int tamanofichero, long valores[]) throws IOException {
 		FileWriter numerosSalida = new FileWriter("NumerosSalida.txt");
@@ -118,6 +113,7 @@ public class Main_P1 {
 				//TestsPrimalitat.esPrimoHastaRaizDeP_BigInteger(valor);
 				//TestsPrimalitat.testMillerRabin_BigInteger(valor);
 				//TestsPrimalitat.testFermatBigInt(valor);
+				//TestsPrimalitat.testMillerRabin_BigInteger(valor);
 			}
 			long endTime = System.nanoTime();
 			scFit.println(valor + " , " + ((endTime - startTime) * 1e-6));

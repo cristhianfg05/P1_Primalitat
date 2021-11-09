@@ -522,17 +522,6 @@ public class TestsPrimalitat {
 	 * 
 	 * @return boolean true si es primo
 	 */
-	/**
-	 * Metodo para comprobar si es un BigInt o para usar un long.
-	 * 
-	 * @param x ; sera el numero en string que leeremos del fichero,
-	 * 
-	 *          No lo usamos ya que hemos decidido usar dos ficheros para cada tipo
-	 *          de dato asi utilizamos todos los datos y metodos
-	 * 
-	 * @return si devuelve cierto usaremos los bigints, y si es falso los longs.
-	 */
-
 	public static boolean testFermatNormal(long p) {
 		long i = 0;
 		boolean primo = true;
@@ -849,4 +838,53 @@ public class TestsPrimalitat {
 		}
 		return false;
 	}
+	
+	public  boolean testMR_BigInteger(BigInteger n) {
+        BigInteger aux = n.subtract(BigInteger.ONE);
+        BigInteger s = BigInteger.ZERO;
+        BigInteger two = BigInteger.TWO;
+        BigInteger modaux = aux.mod(two);
+        BigInteger mods;
+        BigInteger max = n.subtract(BigInteger.ONE);
+        BigInteger min = BigInteger.TWO;
+        BigInteger operation;
+        BigInteger multirandom;
+        BigInteger numfin;
+        BigInteger pow;
+        while (modaux.compareTo(BigInteger.ZERO)==0) {
+            modaux = modaux.divide(BigInteger.TWO);
+            s = s.add(BigInteger.ONE);
+        }
+        BigInteger d = modaux;
+        mods = s.mod(BigInteger.TWO);
+        if (mods.compareTo(BigInteger.ZERO)== 0) {
+            s= s.subtract(BigInteger.ONE);
+            d= modaux.multiply(BigInteger.TWO);
+        }
+    for (int i = 0; i<4; i= i++) {
+        boolean primer = false;
+
+        BigInteger randomNum = new BigInteger(n.bitLength(), new Random());
+        operation = max.subtract(min).add(BigInteger.ONE);
+        multirandom = randomNum.multiply(operation);
+        numfin= multirandom.add(min);
+        pow = numfin.modPow(d, n);
+
+        if (pow.compareTo(BigInteger.ONE)== 0) {
+            primer = true;
+        }else {
+            BigInteger r= BigInteger.ZERO;
+
+            while ((r.compareTo(s)!= -1) && (!primer)) {
+                int auxint = r.intValue();
+                if (numfin.modPow(BigInteger.TWO.pow(auxint), n)== n.subtract(BigInteger.ONE)) {
+                    primer =true;
+                }r= r.add(BigInteger.ONE);
+            }
+        }
+            if (!primer)
+                return false;
+        }
+        return true;
+    }
 }
