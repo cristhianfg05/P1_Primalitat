@@ -9,14 +9,18 @@ import java.util.Scanner;
 public class Main_P1 {
 
 	public static void main(String[] args) throws IOException {
-		final int tamanofichero = 8;
-		//String[] valoresBigInteger;
-		//valoresBigInteger = leerFicheroBigInteger(tamanofichero);
-		//escribirSalidaBI(tamanofichero, valoresBigInteger);
-		 long[] valores;
-		 valores = leerFichero(tamanofichero);
-		 escribirSalidaLong(tamanofichero, valores);
-		// System.out.print(TestsPrimalitat.testFermatNormal(6346339));
+		final int tamanofichero = 1;
+		String[] valoresBigInteger;
+		valoresBigInteger = leerFicheroBigInteger(tamanofichero);
+		escribirSalidaBI(tamanofichero, valoresBigInteger);
+		long[] valores;
+		valores = leerFichero(tamanofichero);
+		escribirSalidaLong(tamanofichero, valores);
+		System.out.print("acabado");
+		
+		//PRINT PARA TESTEAR CADA METODO
+		//System.out.print(TestsPrimalitat.testMillerRabin(79999));
+		//System.out.print(TestsPrimalitat.testMillerRabin_BigInteger(new BigInteger("79999")));
 
 	}
 
@@ -68,29 +72,33 @@ public class Main_P1 {
 			long j = valores[i];
 			long startTime = System.nanoTime();
 			while (j > 0 && !primo) {
-				
-				//3 tests + 1 para asegurar que es primo 100% aunque es un metodo muy fiable
-				//Solo para Miller Rabin
-				//for(int k = 0; k<3; k++) {
-					//primo = TestsPrimalitat.testMillerRabin(j);
-				//}
-				//if (!TestsPrimalitat.testMillerRabin(j)) {
-					//j = j - 2;
-				//} else {
-					//primo = true;
-				//}
+
+				// 3 tests + 1 para asegurar que es primo 100% aunque es un metodo muy fiable
+				// Solo para Miller Rabin
+				// for(int k = 0; k<3; k++) {
+				// primo = TestsPrimalitat.testMillerRabin(j);
+				// }
+				// if (!TestsPrimalitat.testMillerRabin(j)) {
+				// j = j - 2;
+				// } else {
+				// primo = true;
+				// }
 
 				/** Test con Long **/
-				// TestsPrimalitat.esPrimoHastaP(j)
+				if(TestsPrimalitat.esPrimoRaizDeP(j))
+					primo= true;
+				else
+					j = j - 2;
 				// TestsPrimalitat.esPrimoHasta_P_Partido2(j)
 				// TestsPrimalitat.testFermatNormal(j)
 				// TestsPrimalitat.testMillerRabin(j)
 				// for(int k = 0; k<3; k++) {
 				// primo = TestsPrimalitat.testMillerRabin(j);
 				// }
+				
 			}
 			long endTime = System.nanoTime();
-			scFit.println(j + ", " + (endTime - startTime));
+			scFit.println(j + ", " + ((endTime - startTime) * 10e6));
 			primo = false;
 		}
 		numerosSalida.close();
@@ -102,13 +110,12 @@ public class Main_P1 {
 		boolean primo = false;
 
 		for (int i = 0; i < tamanofichero; i++) {
+			scFit.print(valoresBigInteger[i] + ", ");
 			BigInteger valor = new BigInteger(valoresBigInteger[i]);
-			BigInteger modulo = new BigInteger("2");
 
-			if (valor.mod(modulo) == java.math.BigInteger.ZERO) {
-				valor = valor.subtract(java.math.BigInteger.ONE);
+			if (valor.mod(BigInteger.TWO) == BigInteger.ZERO) {
+				valor = valor.subtract(BigInteger.ONE);
 			}
-			System.out.println(valor);
 
 			long startTime = System.nanoTime();
 			while (valor.compareTo(java.math.BigInteger.ZERO) == 1 && !primo) {
@@ -122,8 +129,7 @@ public class Main_P1 {
 				// TestsPrimalitat.testMillerRabin(valor);
 			}
 			long endTime = System.nanoTime();
-			long totalTime = (long) ((endTime - startTime) * 10e6);
-			scFit.println(valoresBigInteger[i] + " , " + valor + " , " + totalTime);
+			scFit.println(valor + " , " + ((endTime - startTime) * 10e6));
 			primo = false;
 		}
 		numerosSalida.close();

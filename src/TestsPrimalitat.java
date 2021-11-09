@@ -526,6 +526,10 @@ public class TestsPrimalitat {
 	 * Metodo para comprobar si es un BigInt o para usar un long.
 	 * 
 	 * @param x ; sera el numero en string que leeremos del fichero,
+	 * 
+	 *          No lo usamos ya que hemos decidido usar dos ficheros para cada tipo
+	 *          de dato asi utilizamos todos los datos y metodos
+	 * 
 	 * @return si devuelve cierto usaremos los bigints, y si es falso los longs.
 	 */
 	private static boolean comprobarBI(String x) {
@@ -571,25 +575,6 @@ public class TestsPrimalitat {
 	}
 
 	/**
-	 * 
-	 * @param a
-	 * @param b
-	 * @param c
-	 * 
-	 * 
-	 * @return
-	 */
-	public static BigInteger a_pow_b_mod_c_BigInteger(BigInteger a, BigInteger b, BigInteger c) {
-		BigInteger resultat = BigInteger.ONE;
-
-		for (BigInteger i = BigInteger.ZERO; i.compareTo(b) == -1; i.add(BigInteger.ONE)) {
-			resultat = resultat.multiply(a).divide(c);
-		}
-
-		return resultat;
-	}
-
-	/**
 	 * @param BigInteger primo a comprobar
 	 * 
 	 *                   Si a(numero random)^(p-1) no es congruente != 1 mod (p)
@@ -600,13 +585,13 @@ public class TestsPrimalitat {
 	public static boolean testFermatBigInt(BigInteger p) {
 		BigInteger i = BigInteger.ZERO;
 		boolean primo = true;
-		BigInteger maximo = new BigInteger(Integer.toString(1000));
+		BigInteger maximo = BigInteger.TEN;
 
 		while (i.compareTo(maximo) == -1 && primo) {
 			BigInteger randomNum = new BigInteger((int) (Math.log(p.intValue()) / Math.log(2)), new Random());
 			randomNum = randomNum.add(BigInteger.ONE);
-			randomNum = randomNum.modPow(p.subtract(BigInteger.ONE), p);
-			if (!(randomNum.equals(BigInteger.ONE))) {
+			BigInteger aux = randomNum.modPow(p.subtract(BigInteger.ONE), p);
+			if (!(aux.equals(BigInteger.ONE))) {
 				primo = false;
 			}
 			i = i.add(BigInteger.ONE);
@@ -766,9 +751,12 @@ public class TestsPrimalitat {
 	public static boolean esPrimoHastaP_BigInteger(BigInteger p) {
 		boolean primo = true;
 		BigInteger i = new BigInteger("3");
-		while (i.compareTo(p) != 1 && primo) {
-			if (p.divideAndRemainder(i)[1] == BigInteger.ZERO)
+		BigInteger aux;
+		while (i.compareTo(p) == -1 && primo) {
+			aux = p.remainder(i);
+			if (aux == BigInteger.ZERO) {
 				primo = false;
+			}
 			i = i.add(BigInteger.TWO);
 		}
 		return primo;
@@ -787,8 +775,10 @@ public class TestsPrimalitat {
 	public static boolean esPrimoHastaP_Pardido_2_BigInteger(BigInteger p) {
 		boolean primo = true;
 		BigInteger i = new BigInteger("3");
+		BigInteger aux;
 		while (i.compareTo(p.divide(BigInteger.TWO)) != 1 && primo) {
-			if (p.divideAndRemainder(i)[1] == BigInteger.ZERO)
+			aux = p.remainder(i);
+			if (aux == BigInteger.ZERO)
 				primo = false;
 			i = i.add(BigInteger.TWO);
 		}
@@ -812,10 +802,12 @@ public class TestsPrimalitat {
 	public static boolean esPrimoHastaRaizDeP_BigInteger(BigInteger p) {
 		boolean primo = true;
 		BigInteger i = new BigInteger("3");
-		while(i.compareTo(p.sqrt())!= 1 && primo) {
-			if(p.divideAndRemainder(i)[1]==BigInteger.ZERO) 
+		BigInteger aux;
+		while (i.compareTo(p.sqrt()) != 1 && primo) {
+			aux = p.remainder(i);
+			if (aux == BigInteger.ZERO)
 				primo = false;
-			i=i.add(BigInteger.TWO);
+			i = i.add(BigInteger.TWO);
 		}
 		return primo;
 	}
@@ -828,7 +820,9 @@ public class TestsPrimalitat {
 
 		}
 		BigInteger a = (BigInteger.TWO);
-		BigInteger x = a_pow_b_mod_c_BigInteger(a, d, p);
+		// ESTE ES EL METODO QUE TIENES QUE UTILIZAR PARA HACER EL MOD POW, TE LO DEJO
+		// ASÍ, PORFA ACABALOO PARA HOY
+		BigInteger x = a.modPow(d, p);
 		return primo;
 	}
 }
