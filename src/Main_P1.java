@@ -20,8 +20,7 @@ public class Main_P1 {
 		
 		//PRINT PARA TESTEAR CADA METODO
 		//System.out.print(TestsPrimalitat.testMillerRabin(79999));
-		//System.out.print(TestsPrimalitat.testMillerRabin_BigInteger(new BigInteger("79999")));
-
+		//System.out.print(TestsPrimalitat.testFermatBigInt(new BigInteger("561")));
 	}
 
 	public static String[] leerFicheroBigInteger(int size) throws FileNotFoundException {
@@ -73,32 +72,22 @@ public class Main_P1 {
 			long startTime = System.nanoTime();
 			while (j > 0 && !primo) {
 
-				// 3 tests + 1 para asegurar que es primo 100% aunque es un metodo muy fiable
-				// Solo para Miller Rabin
-				// for(int k = 0; k<3; k++) {
-				// primo = TestsPrimalitat.testMillerRabin(j);
-				// }
-				// if (!TestsPrimalitat.testMillerRabin(j)) {
-				// j = j - 2;
-				// } else {
-				// primo = true;
-				// }
 
 				/** Test con Long **/
-				if(TestsPrimalitat.esPrimoRaizDeP(j))
+				if(TestsPrimalitat.testMR(j))
 					primo= true;
 				else
 					j = j - 2;
-				// TestsPrimalitat.esPrimoHasta_P_Partido2(j)
-				// TestsPrimalitat.testFermatNormal(j)
-				// TestsPrimalitat.testMillerRabin(j)
-				// for(int k = 0; k<3; k++) {
-				// primo = TestsPrimalitat.testMillerRabin(j);
-				// }
+				//TestsPrimalitat.esPrimoHasta_P_Partido2(j)
+				//TestsPrimalitat.testFermatNormal(j)
+				//TestsPrimalitat.testMR(j)
+				//TestsPrimalitat.esPrimoHastaP(j)
+				//TestsPrimalitat.esPrimoRaizDeP(j)
+				
 				
 			}
 			long endTime = System.nanoTime();
-			scFit.println(j + ", " + ((endTime - startTime) * 10e6));
+			scFit.println(j + ", " + ((endTime - startTime) * 1e-6));
 			primo = false;
 		}
 		numerosSalida.close();
@@ -108,7 +97,6 @@ public class Main_P1 {
 		FileWriter numerosSalida = new FileWriter("NumerosSalidaBigInt.txt");
 		PrintWriter scFit = new PrintWriter(numerosSalida, true);
 		boolean primo = false;
-
 		for (int i = 0; i < tamanofichero; i++) {
 			scFit.print(valoresBigInteger[i] + ", ");
 			BigInteger valor = new BigInteger(valoresBigInteger[i]);
@@ -116,20 +104,23 @@ public class Main_P1 {
 			if (valor.mod(BigInteger.TWO) == BigInteger.ZERO) {
 				valor = valor.subtract(BigInteger.ONE);
 			}
-
 			long startTime = System.nanoTime();
 			while (valor.compareTo(java.math.BigInteger.ZERO) == 1 && !primo) {
-				if (!TestsPrimalitat.esPrimoHastaRaizDeP_BigInteger(valor)) {
+				if (!TestsPrimalitat.testFermatBigInt(valor)) {
 					valor = valor.subtract(java.math.BigInteger.TWO);
 				} else {
 					primo = true;
 				}
 
 				/** Tests con BigInt **/
-				// TestsPrimalitat.testMillerRabin(valor);
+				//TestsPrimalitat.esPrimoHastaP_BigInteger(valor);
+				//TestsPrimalitat.esPrimoHastaP_Pardido_2_BigInteger(valor);
+				//TestsPrimalitat.esPrimoHastaRaizDeP_BigInteger(valor);
+				//TestsPrimalitat.testMillerRabin_BigInteger(valor);
+				//TestsPrimalitat.testFermatBigInt(valor);
 			}
 			long endTime = System.nanoTime();
-			scFit.println(valor + " , " + ((endTime - startTime) * 10e6));
+			scFit.println(valor + " , " + ((endTime - startTime) * 1e-6));
 			primo = false;
 		}
 		numerosSalida.close();

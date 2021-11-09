@@ -580,10 +580,10 @@ public class TestsPrimalitat {
 		BigInteger maximo = BigInteger.TEN;
 
 		while (i.compareTo(maximo) == -1 && primo) {
-			BigInteger randomNum = new BigInteger((int) (Math.log(p.intValue()) / Math.log(2)), new Random());
+			BigInteger randomNum = new BigInteger(p.bitLength(), new Random());
 			randomNum = randomNum.add(BigInteger.ONE);
 			BigInteger aux = randomNum.modPow(p.subtract(BigInteger.ONE), p);
-			if (!(aux.equals(BigInteger.ONE))) {
+			if (!(aux.compareTo(BigInteger.ONE)==0)) {
 				primo = false;
 			}
 			i = i.add(BigInteger.ONE);
@@ -805,31 +805,39 @@ public class TestsPrimalitat {
 	}
 
 	public static boolean testMillerRabin_BigInteger(BigInteger p){
-		   
-	    BigInteger d = p.subtract(BigInteger.ONE);
-	    BigInteger two = BigInteger.TWO;
-	    BigInteger four = BigInteger.valueOf(4);
-	 
-	    while(d.mod(two).compareTo(BigInteger.ZERO)==0 )
-	    {
-	      d.divide(two);
-	      
-	    }
-	    
-	    BigInteger randomNum = new BigInteger((int) (Math.log(p.intValue()) / Math.log(2)), new Random());
-	    randomNum = randomNum.divide(p.subtract(four));
-	    randomNum = randomNum.add(two);
-	    randomNum = randomNum.modPow(d, p);
-	    
-	    if ((randomNum.compareTo(BigInteger.ONE)==0) || (randomNum.compareTo(p.subtract(BigInteger.ONE))==0)) return true;
-	     
-	    while(d.compareTo(p.subtract(BigInteger.ONE))!= 0) {
-	    	randomNum.multiply(randomNum).mod(p);
-	    	d.multiply(two);
-	    	if (randomNum.compareTo(BigInteger.ONE)==0) return false;
-	    	if (randomNum.compareTo(p.subtract(BigInteger.ONE))== 0) return true;
-	    
-	    }
-	    return false;
+
+        BigInteger d = p.subtract(BigInteger.ONE);
+        BigInteger two = BigInteger.TWO;
+        BigInteger four = BigInteger.valueOf(4);
+
+        while(d.mod(two).compareTo(BigInteger.ZERO)==0 )
+        {
+          d.divide(two);
+
+        }
+
+        BigInteger randomNum = new BigInteger(p.bitLength(), new Random());
+        BigInteger aux = randomNum.divide(p.subtract(four));
+        BigInteger aux1 = aux.add(two);
+        BigInteger x = aux1.modPow(d, p);
+        BigInteger mult;
+        BigInteger mod;
+        if ((x.compareTo(BigInteger.ONE)==0) || (x.compareTo(p.subtract(BigInteger.ONE))==0)) {
+            return true;
+        }
+
+        while(d.compareTo(p.subtract(BigInteger.ONE))!= 0) {
+            mult =x.multiply(x);
+            mod = mult.mod(p);
+            d= d.multiply(two);
+            if (mod.compareTo(BigInteger.ONE)==0) {
+                return false;
+            }
+            if (mod.compareTo(p.subtract(BigInteger.ONE))== 0) {
+                return true;
+            }
+
+        }
+        return false;
 }
 }
