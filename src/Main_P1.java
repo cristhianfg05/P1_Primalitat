@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Main_P1 {
 
 	public static void main(String[] args) throws IOException {
-		final int tamanofichero = 1;
+		final int tamanofichero = 7;
 		String[] valoresBigInteger;
 		valoresBigInteger = leerFicheroBigInteger(tamanofichero);
 		escribirSalidaBI(tamanofichero, valoresBigInteger);
@@ -74,7 +74,7 @@ public class Main_P1 {
 
 
 				/** Test con Long **/
-				if(TestsPrimalitat.testMR(j))
+				if(TestsPrimalitat.testMillerRabin(j))
 					primo= true;
 				else
 					j = j - 2;
@@ -83,7 +83,7 @@ public class Main_P1 {
 				//TestsPrimalitat.testMR(j)
 				//TestsPrimalitat.esPrimoHastaP(j)
 				//TestsPrimalitat.esPrimoRaizDeP(j)
-				
+				//TestsPrimalitat.testMillerRabin(j)
 				
 			}
 			long endTime = System.nanoTime();

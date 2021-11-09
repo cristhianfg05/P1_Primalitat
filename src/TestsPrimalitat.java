@@ -532,7 +532,7 @@ public class TestsPrimalitat {
 	 * 
 	 * @return si devuelve cierto usaremos los bigints, y si es falso los longs.
 	 */
-	
+
 	public static boolean testFermatNormal(long p) {
 		long i = 0;
 		boolean primo = true;
@@ -583,7 +583,7 @@ public class TestsPrimalitat {
 			BigInteger randomNum = new BigInteger(p.bitLength(), new Random());
 			randomNum = randomNum.add(BigInteger.ONE);
 			BigInteger aux = randomNum.modPow(p.subtract(BigInteger.ONE), p);
-			if (!(aux.compareTo(BigInteger.ONE)==0)) {
+			if (!(aux.compareTo(BigInteger.ONE) == 0)) {
 				primo = false;
 			}
 			i = i.add(BigInteger.ONE);
@@ -804,40 +804,49 @@ public class TestsPrimalitat {
 		return primo;
 	}
 
-	public static boolean testMillerRabin_BigInteger(BigInteger p){
+	/**
+	 * @param p
+	 * 
+	 *          Test miller Rabin > test fermat (aparte de aplicar el test de fermat
+	 *          tambien consigue evitar los numeros de Carmichael)
+	 *          Java nos Impide siquiera iniciarlo, el caso es que es una traducción de nuestro metodo de 
+	 *          miller Rabin con lo que deberia funcionar de la misma manera
+	 * 
+	 * @return
+	 */
+	public static boolean testMillerRabin_BigInteger(BigInteger p) {
 
-        BigInteger d = p.subtract(BigInteger.ONE);
-        BigInteger two = BigInteger.TWO;
-        BigInteger four = BigInteger.valueOf(4);
+		BigInteger d = p.subtract(BigInteger.ONE);
+		BigInteger two = BigInteger.TWO;
+		BigInteger four = BigInteger.valueOf(4);
 
-        while(d.mod(two).compareTo(BigInteger.ZERO)==0 )
-        {
-          d.divide(two);
+		while (d.mod(two).compareTo(BigInteger.ZERO) == 0) {
+			d.divide(two);
 
-        }
+		}
 
-        BigInteger randomNum = new BigInteger(p.bitLength(), new Random());
-        BigInteger aux = randomNum.divide(p.subtract(four));
-        BigInteger aux1 = aux.add(two);
-        BigInteger x = aux1.modPow(d, p);
-        BigInteger mult;
-        BigInteger mod;
-        if ((x.compareTo(BigInteger.ONE)==0) || (x.compareTo(p.subtract(BigInteger.ONE))==0)) {
-            return true;
-        }
+		BigInteger randomNum = new BigInteger(p.bitLength(), new Random());
+		BigInteger aux = randomNum.divide(p.subtract(four));
+		BigInteger aux1 = aux.add(two);
+		BigInteger x = aux1.modPow(d, p);
+		BigInteger mult;
+		BigInteger mod;
+		if ((x.compareTo(BigInteger.ONE) == 0) || (x.compareTo(p.subtract(BigInteger.ONE)) == 0)) {
+			return true;
+		}
 
-        while(d.compareTo(p.subtract(BigInteger.ONE))!= 0) {
-            mult =x.multiply(x);
-            mod = mult.mod(p);
-            d= d.multiply(two);
-            if (mod.compareTo(BigInteger.ONE)==0) {
-                return false;
-            }
-            if (mod.compareTo(p.subtract(BigInteger.ONE))== 0) {
-                return true;
-            }
+		while (d.compareTo(p.subtract(BigInteger.ONE)) != 0) {
+			mult = x.multiply(x);
+			mod = mult.mod(p);
+			d = d.multiply(two);
+			if (mod.compareTo(BigInteger.ONE) == 0) {
+				return false;
+			}
+			if (mod.compareTo(p.subtract(BigInteger.ONE)) == 0) {
+				return true;
+			}
 
-        }
-        return false;
-}
+		}
+		return false;
+	}
 }
